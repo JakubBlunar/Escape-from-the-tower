@@ -8,7 +8,7 @@ namespace Core
 {
     public class Gold : IGameItem
     {
-        public GameObjectType type
+        public GameObjectType Type
         {
             get
             {
@@ -18,16 +18,29 @@ namespace Core
      
         public int Ammount { get; private set; }
 
-        public Gold(int ammount = 1)
+        public string Name { get; set; }
+
+
+        public Gold(string name,int ammount = 1)
         {
             Ammount = ammount;
+            Name = name;
         }
 
-        public void use()
+        public void Use(Player p)
         {
-            Console.WriteLine("Player is looking at" + Ammount + " gold.");
+            
         }
 
+        public void Look(Player p)
+        {
+            Console.WriteLine("Player is looking at gold pouch. It contains" + Ammount + " gold.");
+        }
+
+        public void Take()
+        {
+            Console.WriteLine("You took " + Ammount + " gold.");
+        }
 
     }
 }

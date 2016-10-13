@@ -8,20 +8,32 @@ namespace Core
 {
     public class Key: IGameItem
     {
-        public GameObjectType type { get { return GameObjectType.Key; } }
+        public GameObjectType Type { get { return GameObjectType.Key; } }
 
-        public delegate void OnItemUse(Key item, EventArgs args);
+        public delegate void OnItemUse(Key item);
         public event OnItemUse itemUse;
 
-        public Key()
+        public string Name { get; set; }
+
+        public Key(string name)
+        {
+            Name = name;
+        }
+
+
+        public void Use(Player p)
+        {
+            itemUse?.Invoke(this);
+        }
+
+        public void Take()
         {
 
         }
 
-
-        public void use()
+        public void Look(Player p)
         {
-            itemUse?.Invoke(this,EventArgs.Empty);
+            Console.WriteLine(Name + " can unlock some door.");
         }
 
     }

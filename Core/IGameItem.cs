@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace Core
 {
-    public interface IGameItem
+    public interface IGameItem: IGameObject
     {
-        GameObjectType type { get; }
-        void use();
+        void Take();
+        
     }
 }

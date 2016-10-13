@@ -10,5 +10,9 @@ namespace Core
     {
         Key,
         Gold,
+        Door,
+        Book,
+        Bookshelf,
+        Chest
     }
 }
