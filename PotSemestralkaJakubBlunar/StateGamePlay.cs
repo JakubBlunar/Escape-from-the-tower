@@ -67,28 +67,9 @@ namespace PotSemestralkaJakubBlunar
                             if(o != null)
                             {
                                 StateLookAtObject state = (StateLookAtObject)Game.Manager.GetGameState("lookAtObject");
-                                if (o.Type == GameObjectType.Bookshelf)
-                                {
-                                    Bookshelf bookshelf = (Bookshelf)o;
-                                    state.GameObject = bookshelf;
-                                    Game.Manager.ChangeState("lookAtObject");
-                                    parsed = true;
-
-                                }
-                                else if (o.Type == GameObjectType.Chest)
-                                {
-                                    Chest chest = (Chest)o;
-                                    if (chest.IsUnlocked)
-                                    {
-                                        if (!chest.IsClosed)
-                                        {
-                                            state.GameObject = chest;
-                                            Game.Manager.ChangeState("lookAtObject");
-                                            parsed = true;
-                                        }else Console.WriteLine("Chest " + chest.Name + " is closed!");
-                                    }
-                                    else Console.WriteLine("Chest "+ chest.Name+ " is locked!");
-                                }
+                                state.GameObject = o;
+                                Game.Manager.ChangeState("lookAtObject");
+                                parsed = true;
                             }
                         }
                         break;

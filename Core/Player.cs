@@ -218,12 +218,25 @@ namespace Core
 
         public IGameObject Look(string at = null)
         {
-            
             if (at != null)
             {
                 IGameObject o = ActualRoom.VisibleObjects.Find(x => x.Name == at);
                 if(o != null)
                 {
+                    if(o.Type == GameObjectType.Chest)// check if player can look into chest
+                    {
+                        Chest chest = (Chest)o;
+                        if (chest.IsUnlocked)
+                        {
+                            if (!chest.IsClosed)
+                            {
+                                return o;
+                            }
+                            else { Console.WriteLine("Chest " + chest.Name + " is closed!"); return null; };
+                        }
+                        else { Console.WriteLine("Chest " + chest.Name + " is locked!"); return null; };
+                    }
+                    // look at another object that is not chest
                     o.Look(this);
                     return o;
                 }
