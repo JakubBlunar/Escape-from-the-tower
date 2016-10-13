@@ -9,10 +9,10 @@ namespace Core
     public class Book : IGameItem
     {
 
-        public Door Door { get; private set; }
+        public IGameObject Object { get; private set; }
 
         public bool ShowsSomething { get {
-                return Door != null;
+                return Object != null;
             } }
 
         public GameObjectType Type
@@ -28,13 +28,11 @@ namespace Core
         public delegate void OnBookTake(Book b);
         public event OnBookTake BookTake;
 
-        public Book(string name, Door d = null)
+        public Book(string name, IGameObject toShow = null)
         {
             Name = name;
-            Door = d;
+            Object = toShow;
         }
-
-      
 
         public void Look(Player p)
         {

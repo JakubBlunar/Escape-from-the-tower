@@ -31,7 +31,6 @@ namespace Core
                     Door d = (Door)o;
                     if ( d.Key == key)
                     {
-                        
                         if (!d.IsUnlocked)
                         {
                             d.IsUnlocked = true;
@@ -52,6 +51,31 @@ namespace Core
                             }
                         }
                     }
+                }else if(o.Type == GameObjectType.Chest)
+                {
+                    Chest ch = (Chest)o;
+                    if (ch.Key == key)
+                    {
+                        if (!ch.IsUnlocked)
+                        {
+                            ch.IsUnlocked = true;
+                            Console.WriteLine("Player unlocked chest: " + ch.Name);
+                            break;
+                        }
+                        else
+                        {
+                            if (ch.IsClosed)
+                            {
+                                ch.IsUnlocked = false;
+                                Console.WriteLine("Player locked chest: " + ch.Name);
+                                break;
+                            }
+                            else
+                            {
+                                Console.WriteLine("Can't lock opened chest!");
+                            }
+                        }
+                    }
                 }
             
             
@@ -62,42 +86,29 @@ namespace Core
         {
             if (b.ShowsSomething)
             {
-                Door d = null;
                 foreach (var o in HiddenObjects)
                 {
-                    if( o == b.Door)
+                    if( o == b.Object)
                     {
-                        d = (Door)o;
-                        break;
+                        VisibleObjects.Add(o);
+                        HiddenObjects.Remove(o);
+                        Console.WriteLine("Book " + b.Name + " shows " + o.Name);
+                        return;
                     }
-                }
-
-                if(d != null)
-                {
-                    VisibleObjects.Add(d);
-                    HiddenObjects.Remove(d);
-                    Console.WriteLine("Book " + b.Name + " shows door " + d.Name);
-                    d = null;
-                    return;
                 }
 
                 foreach (var o in VisibleObjects)
                 {
-                    if (o == b.Door)
+                    if (o == b.Object)
                     {
-                        d = (Door)o;
-                        break;
+                        HiddenObjects.Add(o);
+                        VisibleObjects.Remove(o);
+                        Console.WriteLine("Book " + b.Name + " hide " + o.Name);
+                        return;
                     }
                 }
 
-                if (d != null)
-                {
-                    HiddenObjects.Add(d);
-                    VisibleObjects.Remove(d);
-                    Console.WriteLine("Book " + b.Name + " hide door " + d.Name);
-                    d = null;
-                    return;
-                }
+              
 
 
             }

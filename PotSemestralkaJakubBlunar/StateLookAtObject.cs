@@ -100,8 +100,8 @@ namespace PotSemestralkaJakubBlunar
             else if (GameObject.Type == GameObjectType.Chest)
             {
                 Chest ch = (Chest)GameObject;
-                Console.WriteLine("You are now looking at Bookshelf: " + ch.Name);
-                Console.WriteLine("Books:");
+                Console.WriteLine("You are now looking into Chest: " + ch.Name);
+                Console.WriteLine("Items:");
                 foreach (var b in ch.Items)
                 {
                     Console.Write(b.Name + ", ");
