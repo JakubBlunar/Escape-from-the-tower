@@ -3,23 +3,30 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
+using System.Xml.Serialization;
 
 namespace PotSemestralkaJakubBlunar
 {
     public class StateMainMenu:GameState
     {
-        private List<string> commands { get; set; }
+        private List<string> Commands { get; set; }
 
+        /// <summary>
+        /// Creates state main menu. Define commands available for this state.
+        /// </summary>
+        /// <param name="name">Name of the state.</param>
+        /// <param name="game">instance of game</param>
         public StateMainMenu(String name,Game game): base(name,game)
         {
-            commands = new List<string>();
-            commands.Add("new_game");
-            commands.Add("exit");
-            commands.Add("help");
+            Commands = new List<string>();
+            Commands.Add("new_game");
+            Commands.Add("exit");
+            Commands.Add("help");
         }
 
-        public override void tick()
+        public override void Tick()
         {
             Console.Clear();
 
@@ -27,7 +34,7 @@ namespace PotSemestralkaJakubBlunar
             while (!parsed)
             {   
                 Console.Write("Available commands: ");
-                foreach (var c in commands)
+                foreach (var c in Commands)
                 {
                     Console.Write(c.ToString() + " ");
                 }
@@ -48,20 +55,34 @@ namespace PotSemestralkaJakubBlunar
                         else {
                             Player p = new Player(split[1]);
                             Game.Player = p;
-                            p.ActualRoom = Loader.LoadWorld();            
+                            //Game.Loader.Player = p;
+                            p.ActualRoom = Game.Loader.LoadWorld(Game);
+                            Loader.Save("asd", Game.Loader);
+                            
+
+                            Console.Clear();
+                            Console.WriteLine("You woke up in big castle tower. You don't know how did you get there. But you want to get out of there!");
+                            Console.WriteLine();
+                            Thread.Sleep(4000);
+                            Console.WriteLine("So let the game begin!. Find the way out.");
+                            Console.WriteLine();
+                            Console.WriteLine("Press any key to continue...");
+                            Console.ReadKey();
+                                 
                             Game.Manager.ChangeState("gamePlay");
                             parsed = true;
                         }
                         break;
                     case "exit":
+                        Console.WriteLine("You exited game.");
                         Game.IsRunning = false;
                         parsed = true;
                         break;
                     case "help":
                         if (split.Length == 1) {
-                            help();
+                            Help();
                         }
-                        else Console.WriteLine(help(split[1]));
+                        else Console.WriteLine(Help(split[1]));
                         break;
                     default:
                         Console.WriteLine("I dont know what you mean. Type help for view commands.");
@@ -70,14 +91,20 @@ namespace PotSemestralkaJakubBlunar
                 Console.WriteLine();
             }
         }
-        private string help(string command = null)
+
+        /// <summary>
+        /// Display help about available commands
+        /// </summary>
+        /// <param name="command">Specified command</param>
+        /// <returns>detail of command</returns>
+        private string Help(string command = null)
         {
             
             if (command == null)
             {
-                foreach (string item in commands)
+                foreach (string item in Commands)
                 {
-                    Console.WriteLine(help(item));
+                    Console.WriteLine(Help(item));
                 }
             }else
             {

@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Serialization;
 
 namespace Core
 {
     public class Book : IGameItem
     {
 
-        public IGameObject Object { get; private set; }
+        public Doors Object { get; private set; }
 
         public bool ShowsSomething { get {
                 return Object != null;
@@ -28,7 +29,10 @@ namespace Core
         public delegate void OnBookTake(Book b);
         public event OnBookTake BookTake;
 
-        public Book(string name, IGameObject toShow = null)
+        public Book() { }
+
+
+        public Book(string name, Doors toShow = null)
         {
             Name = name;
             Object = toShow;
@@ -36,7 +40,7 @@ namespace Core
 
         public void Look(Player p)
         {
-            Console.WriteLine("Player is reading " + Name);
+            Console.WriteLine("You are reading book: " + Name);
         }
 
         public void Take()

@@ -6,6 +6,10 @@ using System.Threading.Tasks;
 
 namespace Core
 {
+    /// <summary>
+    /// Class that represents player.
+    /// Has his name, executes command from commandline.
+    /// </summary>
     public class Player
     {
         public Room ActualRoom { get; set; }
@@ -22,6 +26,11 @@ namespace Core
             Name = name;
         }
 
+        /// <summary>
+        /// Method for command go, where player change actual room
+        /// </summary>
+        /// <param name="where">Name of the new room.</param>
+        /// <returns>If player is in new room.</returns>
         public bool go(string where)
         {
             if (where == ActualRoom.Name) {
@@ -35,7 +44,7 @@ namespace Core
                
                     if(o.Type == GameObjectType.Door)
                     {
-                        Door d = (Door)o;
+                        Doors d = (Doors)o;
                         Room nextRoom = null;
                         if (d.Room1.Name == where) nextRoom = d.Room1;
                         if (d.Room2.Name == where) nextRoom = d.Room2;
@@ -60,6 +69,10 @@ namespace Core
            return false;
         }
 
+        /// <summary>
+        /// Method that puts game item into player inventory
+        /// </summary>
+        /// <param name="nameOfItem">name of the item</param>
         public void TakeItem(string nameOfItem)
         {
             IGameObject item = ActualRoom.VisibleObjects.Find(x => x.Name == nameOfItem);
@@ -84,6 +97,11 @@ namespace Core
             }else Console.WriteLine("Item " + nameOfItem + " dont exists.");
         }
 
+        /// <summary>
+        /// Method for putting Items into gameObject
+        /// </summary>
+        /// <param name="name">name of item from inventory</param>
+        /// <param name="gameObject">object where to put item</param>
         public void PutToObject(string name, IGameObject gameObject)
         {
             IGameItem item = Inventory.Find(x => x.Name == name);
@@ -111,6 +129,11 @@ namespace Core
             }else Console.WriteLine("Item with name" + name + " don't exists in your inventory.");
         }
 
+        /// <summary>
+        /// Method for taking game item from some object.
+        /// </summary>
+        /// <param name="name">name of item</param>
+        /// <param name="paObject">object from which take game item</param>
         public void TakeFromObject(string name, IGameObject paObject )
         {
             if (paObject.Type == GameObjectType.Bookshelf)
@@ -160,7 +183,10 @@ namespace Core
             }
         }
 
-
+        /// <summary>
+        /// Method for use specified game item
+        /// </summary>
+        /// <param name="nameOfItem">name of item that player want to use</param>
         public void UseItem(String nameOfItem)
         {
             IGameObject item = ActualRoom.VisibleObjects.Find(x => x.Name == nameOfItem);
@@ -171,9 +197,17 @@ namespace Core
                     Console.WriteLine("You have to take it into your inventory to use it.");
                 } else
                 {
-                    item.Use(this);
+                    if (item.Type == GameObjectType.TorchHolder)
+                    {
+                        TorchHolder h = (TorchHolder)item;
+                        h.objectUse += ActualRoom.OnTorchHolderUse;
+                        h.Use(this);
+                        h.objectUse -= ActualRoom.OnTorchHolderUse;
+                    }
+                    else item.Use(this);
                 }
-            } else // inventory
+            }
+            else // inventory
             {
                 item = Inventory.Find(x => x.Name == nameOfItem);
                 if (item != null)
@@ -197,10 +231,12 @@ namespace Core
                 }
             }
 
-           
-           
         }
 
+        /// <summary>
+        /// Drop Item from player inventory into room.
+        /// </summary>
+        /// <param name="nameOfItem">Name of item to be dropped.</param>
         public void DropItem(string nameOfItem)
         {
             IGameObject item = Inventory.Find(x => x.Name == nameOfItem);
@@ -215,8 +251,12 @@ namespace Core
             Console.WriteLine("You dropped item with name '" + nameOfItem + "' from your inventory");
         }
 
-
-        public IGameObject Look(string at = null)
+        /// <summary>
+        /// Look at specified object
+        /// </summary>
+        /// <param name="at">Name of object</param>
+        /// <returns>The object on which the player is looking or null if dont exists</returns>
+        public IGameObject Look(string at)
         {
             if (at != null)
             {
@@ -253,6 +293,12 @@ namespace Core
             return null;
         }
 
+        /// <summary>
+        /// Writes info about player on console
+        /// Name
+        /// Inventory items
+        /// Collected gold
+        /// </summary>
         public void Info()
         {
             Console.WriteLine(Name);

@@ -3,10 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml;
+using System.Xml.Schema;
+using System.Xml.Serialization;
 
 namespace Core
 {
-    public class Gold : IGameItem
+    
+    public class Gold : IGameItem, IXmlSerializable
     {
         public GameObjectType Type
         {
@@ -20,6 +24,7 @@ namespace Core
 
         public string Name { get; set; }
 
+        public Gold() { }
 
         public Gold(string name,int ammount = 1)
         {
@@ -34,13 +39,27 @@ namespace Core
 
         public void Look(Player p)
         {
-            Console.WriteLine("Player is looking at gold pouch. It contains" + Ammount + " gold.");
+            Console.WriteLine("You are looking at gold pouch. It contains" + Ammount + " gold.");
         }
 
         public void Take()
         {
-            Console.WriteLine("You took " + Ammount + " gold.");
+            Console.WriteLine("You take " + Ammount + " gold.");
         }
 
+        public XmlSchema GetSchema()
+        {
+            return null;
+        }
+
+        public void ReadXml(XmlReader reader)
+        {
+            Name = reader.ReadString();
+        }
+
+        public void WriteXml(XmlWriter writer)
+        {
+            writer.WriteString(Name);
+        }
     }
 }

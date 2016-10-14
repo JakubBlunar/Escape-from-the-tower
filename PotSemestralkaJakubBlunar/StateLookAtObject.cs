@@ -7,12 +7,20 @@ using System.Threading.Tasks;
 
 namespace PotSemestralkaJakubBlunar
 {
+    /// <summary>
+    /// State where player looking at some object, where he can take or put things there.
+    /// </summary>
     public class StateLookAtObject : GameState
     {
         private List<string> commands { get; set; }
 
         public IGameObject GameObject { get; set; }
 
+        /// <summary>
+        /// Creates state look at object. Define commands available for this state.
+        /// </summary>
+        /// <param name="name">Name of the state.</param>
+        /// <param name="game">instance of game</param>
         public StateLookAtObject(String name, Game game) : base(name, game)
         {
             commands = new List<string>();
@@ -25,9 +33,12 @@ namespace PotSemestralkaJakubBlunar
            
         }
 
-        public override void tick()
+        /// <summary>
+        /// Main loop of this state, wait for user input, parse it and execute specified command.
+        /// </summary>
+        public override void Tick()
         {
-            info();    
+            Info();    
 
             bool parsed = false;
             while (!parsed)
@@ -63,7 +74,7 @@ namespace PotSemestralkaJakubBlunar
                         else Game.Player.PutToObject(split[1], GameObject);
                         break;
                     case "look":
-                        info();
+                        Info();
                         break;
                     case "back":
                         Game.Manager.ChangeState("gamePlay");
@@ -73,8 +84,8 @@ namespace PotSemestralkaJakubBlunar
                         Game.Player.Info();
                         break;
                     case "help":
-                        if (split.Length == 1) help();
-                        else Console.WriteLine(help(split[1]));
+                        if (split.Length == 1) Help();
+                        else Console.WriteLine(Help(split[1]));
                         break;
                     default:
                         Console.WriteLine("I dont know what you mean. Type help for view commands.");
@@ -83,7 +94,10 @@ namespace PotSemestralkaJakubBlunar
             }
         }
 
-        private void info()
+        /// <summary>
+        /// Displays info 
+        /// </summary>
+        private void Info()
         {
             Console.Clear();
 
@@ -111,14 +125,19 @@ namespace PotSemestralkaJakubBlunar
             Console.WriteLine();
         }
 
-        private string help(string command = null)
+        /// <summary>
+        /// Display help about available commands
+        /// </summary>
+        /// <param name="command">Specified command</param>
+        /// <returns>detail of command</returns>
+        private string Help(string command = null)
         {
 
             if (command == null)
             {
                 foreach (string item in commands)
                 {
-                    Console.WriteLine(help(item));
+                    Console.WriteLine(Help(item));
                 }
             }
             else
@@ -126,11 +145,11 @@ namespace PotSemestralkaJakubBlunar
                 switch (command)
                 {
                     case "take":
-                        return "take {bookname} - take book with {bookname} from bookshelf";
+                        return "take {bookname} - take book with {bookname} from bookshelf/chest";
                     case "put":
-                        return "put {bookname} - Put book with name {bookname} into bookshelf";
+                        return "put {bookname} - Put book with name {bookname} into bookshelf/chest";
                     case "back":
-                        return "back - stop to looking at this bookshelf";
+                        return "back - stop to looking at this bookshelf/chest";
                     case "look":
                         return "look - display info about object";
                     case "player":

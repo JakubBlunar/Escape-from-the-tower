@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace Core
 {
-    public class Door: IGameObject
+    
+    public class Doors: IGameObject
     {
         public Key Key { get; private set; }
         public bool IsUnlocked { get; set; }
@@ -25,7 +26,7 @@ namespace Core
             }
         }
 
-        public Door(string name,Room r1, Room r2,Key key = null)
+        public Doors(string name,Room r1, Room r2,Key key = null)
         {
             Key = key;
             Room1 = r1;
@@ -59,7 +60,7 @@ namespace Core
         public void Look(Player p)
         {
             string whereTo;
-            if (p.ActualRoom == Room1)
+            if (p.ActualRoom.Name == Room1.Name)
             {
                 whereTo = Room2.Name;
             }

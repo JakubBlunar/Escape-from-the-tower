@@ -35,7 +35,7 @@ namespace Core
 
         public void Use(Player p)
         {
-            Console.WriteLine("How can you use Bookshelf? Maybe look?");
+            Console.WriteLine("How can I use Bookshelf? Maybe look?");
         }
     }
 }

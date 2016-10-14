@@ -13,6 +13,10 @@ namespace Core
         Door,
         Book,
         Bookshelf,
-        Chest
+        Chest,
+        TorchHolder,
+        Window,
+        UnknownObject,
+        UnknownItem
     }
 }

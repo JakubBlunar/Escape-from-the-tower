@@ -7,10 +7,18 @@ using System.Threading.Tasks;
 
 namespace PotSemestralkaJakubBlunar
 {
+    /// <summary>
+    /// State of the game, when player is at some room.
+    /// </summary>
     public class StateGamePlay : GameState
     {
         private List<string> commands { get; set; }
 
+        /// <summary>
+        /// Creates state game play. Define commands available for this state.
+        /// </summary>
+        /// <param name="name">Name of the state.</param>
+        /// <param name="game">instance of game</param>
         public StateGamePlay(String name, Game game) : base(name, game)
         {
             commands = new List<string>();
@@ -23,7 +31,10 @@ namespace PotSemestralkaJakubBlunar
             
         }
 
-        public override void tick()
+        /// <summary>
+        /// Main loop of this state, wait for user input, parse it and execute specified command.
+        /// </summary>
+        public override void Tick()
         {
 
             Console.Clear();
@@ -59,17 +70,20 @@ namespace PotSemestralkaJakubBlunar
                     case "look":
                         if (split.Length == 1)
                         {
-                            info();
+                            Info();
                         }
                         else
                         {
                             IGameObject o = Game.Player.Look(split[1]);
                             if(o != null)
                             {
-                                StateLookAtObject state = (StateLookAtObject)Game.Manager.GetGameState("lookAtObject");
-                                state.GameObject = o;
-                                Game.Manager.ChangeState("lookAtObject");
-                                parsed = true;
+                                if (o.Type == GameObjectType.Chest || o.Type == GameObjectType.Bookshelf)
+                                {
+                                    StateLookAtObject state = (StateLookAtObject)Game.Manager.GetGameState("lookAtObject");
+                                    state.GameObject = o;
+                                    Game.Manager.ChangeState("lookAtObject");
+                                    parsed = true;
+                                }
                             }
                         }
                         break;
@@ -101,9 +115,9 @@ namespace PotSemestralkaJakubBlunar
                     case "help":
                         if (split.Length == 1)
                         {
-                            help();
+                            Help();
                         }
-                        else Console.WriteLine(help(split[1]));
+                        else Console.WriteLine(Help(split[1]));
                         break;
                     default:
                         Console.WriteLine("I dont know what you mean.\n Type help for view commands.");
@@ -112,7 +126,10 @@ namespace PotSemestralkaJakubBlunar
             }
         }
 
-        public void info()
+        /// <summary>
+        /// Shows info about actual players room.
+        /// </summary>
+        public void Info()
         {
             Console.Clear();
             Room actual = Game.Player.ActualRoom;
@@ -125,14 +142,20 @@ namespace PotSemestralkaJakubBlunar
             }
             Console.WriteLine();
         }
-        private string help(string command = null)
+
+        /// <summary>
+        /// Display help about available commands
+        /// </summary>
+        /// <param name="command">Specified command</param>
+        /// <returns>detail of command</returns>
+        private string Help(string command = null)
         {
 
             if (command == null)
             {
                 foreach (string item in commands)
                 {
-                    Console.WriteLine(help(item));
+                    Console.WriteLine(Help(item));
                 }
             }
             else
