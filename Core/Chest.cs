@@ -1,28 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Xml.Serialization;
 
 namespace Core
 {
-    public class Chest : IGameObject
+    [XmlRoot("Chest")]
+    public class Chest : GameObjectBase
     {
-        public List<IGameItem> Items { get; private set; }
+        
+        public List<GameItemBase> Items { get; set; }
 
-        public GameObjectType Type
-        {
-            get
-            {
-                return GameObjectType.Chest;
-            }
-        }
+        public override GameObjectType Type => GameObjectType.Chest;
 
-        public string Name { get; set; }
+        public Key Key { get; set; }
 
-        public Key Key { get; private set; }
         public bool IsUnlocked { get; set; }
+
         public bool IsClosed { get; set; }
+
+        public Chest() { }
 
         public Chest(string name, Key k = null)
         {
@@ -31,16 +27,16 @@ namespace Core
             if (Key != null) IsUnlocked = false;
             else IsUnlocked = true;
             IsClosed = true;
-            Items = new List<IGameItem>();
+            Items = new List<GameItemBase>();
         }
 
 
-        public void Look(Player p)
+        public override void Look(Player p)
         {
             
         }
 
-        public void Use(Player p)
+        public override void Use(Player p)
         {
             if (IsUnlocked)
             {

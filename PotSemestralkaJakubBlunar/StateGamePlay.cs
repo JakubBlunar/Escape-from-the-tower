@@ -1,9 +1,6 @@
 ﻿using Core;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PotSemestralkaJakubBlunar
 {
@@ -12,7 +9,7 @@ namespace PotSemestralkaJakubBlunar
     /// </summary>
     public class StateGamePlay : GameState
     {
-        private List<string> commands { get; set; }
+        private List<string> Commands { get; }
 
         /// <summary>
         /// Creates state game play. Define commands available for this state.
@@ -21,14 +18,7 @@ namespace PotSemestralkaJakubBlunar
         /// <param name="game">instance of game</param>
         public StateGamePlay(String name, Game game) : base(name, game)
         {
-            commands = new List<string>();
-            commands.Add("go");
-            commands.Add("look");
-            commands.Add("take");
-            commands.Add("put");
-            commands.Add("use");
-            commands.Add("player");
-            
+            Commands = new List<string> {"go", "look", "take", "put", "use", "player", "save", "load"};
         }
 
         /// <summary>
@@ -47,81 +37,111 @@ namespace PotSemestralkaJakubBlunar
             {
                 Console.WriteLine();
                 Console.Write("Available commands: ");
-                foreach (var c in commands)
+                foreach (var c in Commands)
                 {
-                    Console.Write(c.ToString() + " ");
+                    Console.Write(c + " ");
                 }
                 Console.WriteLine();
                 Console.Write("->  ");
                 string command = Console.ReadLine();
-                command = command.Trim();
-
-                string[] split = command.Split(delimiterChars);
-
-                switch (split[0])
+                if (command != null)
                 {
-                    case "go":
-                        if (split.Length == 1)
-                        {
-                            Console.WriteLine("Where do you want to go?");
-                        }
-                        else parsed = Game.Player.go(split[1]);
-                        break;
-                    case "look":
-                        if (split.Length == 1)
-                        {
-                            Info();
-                        }
-                        else
-                        {
-                            IGameObject o = Game.Player.Look(split[1]);
-                            if(o != null)
+                    command = command.Trim();
+
+                    string[] split = command.Split(DelimiterChars);
+
+                    switch (split[0])
+                    {
+                        case "go":
+                            if (split.Length == 1)
                             {
-                                if (o.Type == GameObjectType.Chest || o.Type == GameObjectType.Bookshelf)
+                                Console.WriteLine("Where do you want to go?");
+                            }
+                            else parsed = Game.Player.Go(split[1]);
+                            if (parsed)
+                            {
+                                Game.Loader.Player.ActualRoom = Game.Loader.Rooms.Find(x => x.Name == Game.Player.NameOfActualRoom);
+                            }
+                            break;
+                        case "look":
+                            if (split.Length == 1)
+                            {
+                                Info();
+                            }
+                            else
+                            {
+                                IGameObject o = Game.Player.Look(split[1]);
+                                if(o != null)
                                 {
-                                    StateLookAtObject state = (StateLookAtObject)Game.Manager.GetGameState("lookAtObject");
-                                    state.GameObject = o;
-                                    Game.Manager.ChangeState("lookAtObject");
-                                    parsed = true;
+                                    if (o.Type == GameObjectType.Chest || o.Type == GameObjectType.Bookshelf)
+                                    {
+                                        StateLookAtObject state = (StateLookAtObject)Game.Manager.GetGameState("lookAtObject");
+                                        state.GameObject = o;
+                                        Game.Manager.ChangeState("lookAtObject");
+                                        parsed = true;
+                                    }
                                 }
                             }
-                        }
-                        break;
-                    case "take":
-                        if (split.Length == 1)
-                        {
-                            Console.WriteLine("What do you want to take?");
-                        }
-                        else Game.Player.TakeItem(split[1]);
-                        break;
-                    case "put":
-                        if (split.Length == 1)
-                        {
-                            Console.WriteLine("Which item do you want to drop?");
-                        }
-                        else Game.Player.DropItem(split[1]);
+                            break;
+                        case "take":
+                            if (split.Length == 1)
+                            {
+                                Console.WriteLine("What do you want to take?");
+                            }
+                            else Game.Player.TakeItem(split[1]);
+                            break;
+                        case "put":
+                            if (split.Length == 1)
+                            {
+                                Console.WriteLine("Which item do you want to drop?");
+                            }
+                            else Game.Player.DropItem(split[1]);
 
-                        break;
-                    case "use":
-                        if (split.Length == 1)
-                        {
-                            Console.WriteLine("What do you want to use?");
-                        }
-                        else Game.Player.UseItem(split[1]);
-                        break;
-                    case "player":
-                        Game.Player.Info();
-                        break;
-                    case "help":
-                        if (split.Length == 1)
-                        {
-                            Help();
-                        }
-                        else Console.WriteLine(Help(split[1]));
-                        break;
-                    default:
-                        Console.WriteLine("I dont know what you mean.\n Type help for view commands.");
-                        break;
+                            break;
+                        case "use":
+                            if (split.Length == 1)
+                            {
+                                Console.WriteLine("What do you want to use?");
+                            }
+                            else Game.Player.UseItem(split[1]);
+                            break;
+                        case "player":
+                            Game.Player.Info();
+                            break;
+
+                        case "save":
+                            if (split.Length == 1)
+                            {
+                                Console.WriteLine("Where do you want to save?");
+                            }
+                            else
+                            {
+                                Game.Save(split[1]);
+
+                            }
+                            break;
+                        case "load":
+                            if (split.Length == 1)
+                            {
+                                Console.WriteLine("From what file you want to load?");
+                            }
+                            else
+                            {
+                                Game.Load(split[1]);
+
+                            }
+                            break;
+                        case "help":
+                            if (split.Length == 1)
+                            {
+                                Help();
+                            }
+                            else Console.WriteLine(Help(split[1]));
+                            break;
+                        default:
+                            Console.WriteLine("I dont know what you mean.\n Type help for view commands.");
+                            break;
+                    }
                 }
             }
         }
@@ -129,7 +149,7 @@ namespace PotSemestralkaJakubBlunar
         /// <summary>
         /// Shows info about actual players room.
         /// </summary>
-        public void Info()
+        private void Info()
         {
             Console.Clear();
             Room actual = Game.Player.ActualRoom;
@@ -153,7 +173,7 @@ namespace PotSemestralkaJakubBlunar
 
             if (command == null)
             {
-                foreach (string item in commands)
+                foreach (string item in Commands)
                 {
                     Console.WriteLine(Help(item));
                 }
@@ -171,9 +191,13 @@ namespace PotSemestralkaJakubBlunar
                     case "put":
                         return "put {item name} - put specified item from inventory into room";
                     case "use":
-                        return "use {item name} - use specified item";
+                        return "use {item name} - use specified item";      
                     case "player":
                         return "player - display info about player";
+                    case "save":
+                        return "save {filename} - save game into file named {filename}.xml";
+                    case "load":
+                        return "load {filename} - load game from file named {filename}.xml";
                     default:
                         return "help [command] - list of commands or help for specified command";
                 }

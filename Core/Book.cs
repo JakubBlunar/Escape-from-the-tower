@@ -1,30 +1,16 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Xml.Serialization;
 
 namespace Core
 {
-    public class Book : IGameItem
+    [XmlRoot("Book")]
+    public class Book : GameItemBase
     {
+        public Doors Object { get; set; }
 
-        public Doors Object { get; private set; }
+        public bool ShowsSomething => Object != null;
 
-        public bool ShowsSomething { get {
-                return Object != null;
-            } }
-
-        public GameObjectType Type
-        {
-            get
-            {
-                return GameObjectType.Book;
-            }
-        }
-
-        public string Name { get; set; }
+        public override GameObjectType Type => GameObjectType.Book;
 
         public delegate void OnBookTake(Book b);
         public event OnBookTake BookTake;
@@ -38,17 +24,17 @@ namespace Core
             Object = toShow;
         }
 
-        public void Look(Player p)
+        public override void Look(Player p)
         {
             Console.WriteLine("You are reading book: " + Name);
         }
 
-        public void Take()
+        public override void Take()
         {
             BookTake?.Invoke(this);
         }
 
-        public void Use(Player p)
+        public override void Use(Player p)
         {
             Console.WriteLine("I don't know how to use this book. Maybe Look?");
         }

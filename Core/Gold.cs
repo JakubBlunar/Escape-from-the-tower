@@ -1,28 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml;
-using System.Xml.Schema;
 using System.Xml.Serialization;
 
 namespace Core
 {
-    
-    public class Gold : IGameItem, IXmlSerializable
+    [XmlRoot("Gold")]
+    public class Gold : GameItemBase
     {
-        public GameObjectType Type
-        {
-            get
-            {
-                return GameObjectType.Gold;
-            }
-        }
-     
-        public int Ammount { get; private set; }
+        public override GameObjectType Type => GameObjectType.Gold;
 
-        public string Name { get; set; }
+        public int Ammount { get; set; }
 
         public Gold() { }
 
@@ -32,34 +18,21 @@ namespace Core
             Name = name;
         }
 
-        public void Use(Player p)
+        public override void Use(Player p)
         {
             
         }
 
-        public void Look(Player p)
+        public override void Look(Player p)
         {
             Console.WriteLine("You are looking at gold pouch. It contains" + Ammount + " gold.");
         }
 
-        public void Take()
+        public override void Take()
         {
             Console.WriteLine("You take " + Ammount + " gold.");
         }
 
-        public XmlSchema GetSchema()
-        {
-            return null;
-        }
 
-        public void ReadXml(XmlReader reader)
-        {
-            Name = reader.ReadString();
-        }
-
-        public void WriteXml(XmlWriter writer)
-        {
-            writer.WriteString(Name);
-        }
     }
 }

@@ -1,45 +1,30 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Xml.Serialization;
 
 namespace Core
 {
-
-    public class TorchHolder : IGameObject
+    [XmlRoot("TorchHolder")]
+    public class TorchHolder : GameObjectBase
     {
-        public string Name{ get; set; }
-
-        public GameObjectType Type
-        {
-            get
-            {
-                return GameObjectType.TorchHolder;
-            }
-        }
-        public IGameObject Object { get; set; }
-        public bool ShowsSomething
-        {
-            get
-            {
-                return Object != null;
-            }
-        }
+        public override GameObjectType Type => GameObjectType.TorchHolder;
+        public GameObjectBase Object { get; set; }
+        public bool ShowsSomething => Object != null;
 
         public bool HasTorch { get; set; }
 
         public delegate void OnTorchHolderUse(TorchHolder holder);
-        public event OnTorchHolderUse objectUse;
+        public event OnTorchHolderUse ObjectUse;
         
-        public TorchHolder(string name,bool hasTorch = true, IGameObject toShow = null)
+        public TorchHolder() { }
+
+        public TorchHolder(string name,bool hasTorch = true, GameObjectBase toShow = null)
         {
             HasTorch = hasTorch;
             Object = toShow;
             Name = name;
         }
 
-        public void Look(Player p)
+        public override void Look(Player p)
         {
             if (HasTorch)
             {
@@ -50,9 +35,9 @@ namespace Core
             }
         }
 
-        public void Use(Player p)
+        public override void Use(Player p)
         {
-            objectUse?.Invoke(this);
+            ObjectUse?.Invoke(this);
         }
     }
 }

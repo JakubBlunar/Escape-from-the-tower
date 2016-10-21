@@ -1,5 +1,7 @@
 ﻿using Core;
 using System;
+using System.IO;
+using System.Xml.Serialization;
 
 namespace PotSemestralkaJakubBlunar
 {
@@ -9,14 +11,10 @@ namespace PotSemestralkaJakubBlunar
     /// </summary>
     public class Game
     {
-
-        public Loader Loader { get; set; }
-
-        public StateManager Manager { get; set; }
-        public bool IsRunning { get; set; }
-
+        public Loader Loader { get; private set; }
+        public StateManager Manager { get; }
+        public bool IsRunning { private get; set; }  
         public Player Player { get; set; }
-        public Room LastRoom { get; set; }
 
         /// <summary>
         /// Constructor creates new game with game states needed for run.
@@ -42,7 +40,7 @@ namespace PotSemestralkaJakubBlunar
 
             while (IsRunning)
             {
-                if(LastRoom != null && Player.ActualRoom == LastRoom) {// check if player won
+                if(Player!= null && Player.ActualRoom.Name == Loader.LastRoom) {// check if player won
                     IsRunning = false;
                     if(Player.Inventory.Find(x=> x.Name == "golden_sword") != null)
                     {
@@ -60,7 +58,75 @@ namespace PotSemestralkaJakubBlunar
             }   
 
         }
+
+        /// <summary>
+        /// Same actual state to game into xml file using serialization.
+        /// </summary>
+        /// <param name="paFile">name of file</param>
+        /// <returns>if save was succesfull</returns>
+        public void Save(string paFile)
+        {
+            bool succes;
+            XmlSerializer serializer = new XmlSerializer(typeof(Loader));
+            using (FileStream file = new FileStream("./"+paFile+".xml", FileMode.Create))
+            {
+                try
+                {
+                    serializer.Serialize(file, Loader);
+                    succes = true;
+                }catch
+                {
+                    succes = false;
+                }
+            }
+
+            if (succes)
+            {
+                Console.WriteLine("Game has been saved into file: " + paFile + ".xml");
+            }
+            else
+            {
+                Console.WriteLine("Error with saving game.");
+            }
+        }
+
+        /// <summary>
+        /// Load game from specified xml file.
+        /// </summary>
+        /// <param name="paFile">Name of the file</param>
+        /// <returns>If game was succesfully loaded.</returns>
+        public bool Load(string paFile)
+        {
+            string fileName = "./" + paFile + ".xml";
+
+            if (File.Exists(fileName))
+            {
+                using (FileStream file = new FileStream(fileName, FileMode.Open))
+                {
+                    XmlSerializer serializer = new XmlSerializer(typeof(Loader));
+                    try
+                    {
+                        var l = (Loader)serializer.Deserialize(file);
+                        Loader = l;
+                        Player = Loader.Player;
+                        Player.SetActualRoom(Loader.Rooms.Find(x => x.Name == Player.NameOfActualRoom));
+                        return true;
+                    }
+                    catch
+                    {
+                        Console.WriteLine("Game cannot be loaded from : " + paFile + ".xml");
+                        return false;
+                    }
+                }
+            }
+            else
+            {
                 
+                Console.WriteLine("File " + fileName + " don't exists.");
+                return false;
+            }
+
+        }       
 
     }
 }

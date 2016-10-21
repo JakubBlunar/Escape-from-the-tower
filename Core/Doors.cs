@@ -1,36 +1,27 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Xml.Serialization;
 
 namespace Core
 {
-    
-    public class Doors: IGameObject
+    [XmlRoot("Doors")]
+    public class Doors: GameObjectBase
     {
-        public Key Key { get; private set; }
+        public Key Key { get; set; }
         public bool IsUnlocked { get; set; }
-        public Room Room1 { get; set; }
-        public Room Room2 { get; set; }
+        public string Room1 { get; set; }
+        public string Room2 { get; set; }
 
         public bool AreClosed { get; set; }
 
-        public string Name { get; set; }
+        public override GameObjectType Type => GameObjectType.Door;
 
-        public GameObjectType Type
-        {
-            get
-            {
-                return GameObjectType.Door;
-            }
-        }
+        public Doors() { }
 
         public Doors(string name,Room r1, Room r2,Key key = null)
         {
             Key = key;
-            Room1 = r1;
-            Room2 = r2;
+            Room1 = r1.Name;
+            Room2 = r2.Name;
 
             if (key != null) IsUnlocked = false;
             else IsUnlocked = true;
@@ -38,7 +29,7 @@ namespace Core
             Name = name;
         }
 
-        public void Use(Player p)
+        public override void Use(Player p)
         {
             if (IsUnlocked)
             {
@@ -57,16 +48,16 @@ namespace Core
             }
         }
 
-        public void Look(Player p)
+        public override void Look(Player p)
         {
             string whereTo;
-            if (p.ActualRoom.Name == Room1.Name)
+            if (p.ActualRoom.Name == Room1)
             {
-                whereTo = Room2.Name;
+                whereTo = Room2;
             }
             else
             {
-                whereTo = Room1.Name;
+                whereTo = Room1;
             }
             if (AreClosed)
             {

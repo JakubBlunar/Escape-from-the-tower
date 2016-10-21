@@ -1,9 +1,6 @@
 ﻿using Core;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PotSemestralkaJakubBlunar
 {
@@ -12,9 +9,9 @@ namespace PotSemestralkaJakubBlunar
     /// </summary>
     public class StateLookAtObject : GameState
     {
-        private List<string> commands { get; set; }
+        private List<string> Commands { get; }
 
-        public IGameObject GameObject { get; set; }
+        public IGameObject GameObject { private get; set; }
 
         /// <summary>
         /// Creates state look at object. Define commands available for this state.
@@ -23,14 +20,8 @@ namespace PotSemestralkaJakubBlunar
         /// <param name="game">instance of game</param>
         public StateLookAtObject(String name, Game game) : base(name, game)
         {
-            commands = new List<string>();
-            commands.Add("take");
-            commands.Add("put");
-            commands.Add("look");
-            commands.Add("player");
-            commands.Add("back");
-            commands.Add("help");
-           
+            Commands = new List<string> {"take", "put", "look", "player", "back", "help"};
+
         }
 
         /// <summary>
@@ -45,57 +36,60 @@ namespace PotSemestralkaJakubBlunar
             {
                 Console.WriteLine();
                 Console.Write("Available commands: ");
-                foreach (var c in commands)
+                foreach (var c in Commands)
                 {
-                    Console.Write(c.ToString() + " ");
+                    Console.Write(c + " ");
                 }
                 Console.WriteLine();
                 Console.Write("->  ");
                 string command = Console.ReadLine();
-                command = command.Trim();
-
-                string[] split = command.Split(delimiterChars);
-
-                switch (split[0])
+                if (command != null)
                 {
-                    case "take":
-                        if (split.Length <= 1)
-                        {
-                            Console.WriteLine("What do you want to take?");
-                        }
-                        else  Game.Player.TakeFromObject(split[1], GameObject);
+                    command = command.Trim();
 
-                        break;
-                    case "put":
-                        if (split.Length <= 1)
-                        {
-                            Console.WriteLine("What do you want to drop?");
-                        }
-                        else Game.Player.PutToObject(split[1], GameObject);
-                        break;
-                    case "look":
-                        Info();
-                        break;
-                    case "back":
-                        Game.Manager.ChangeState("gamePlay");
-                        parsed = true;
-                        break;
-                    case "player":
-                        Game.Player.Info();
-                        break;
-                    case "help":
-                        if (split.Length == 1) Help();
-                        else Console.WriteLine(Help(split[1]));
-                        break;
-                    default:
-                        Console.WriteLine("I dont know what you mean. Type help for view commands.");
-                        break;
+                    string[] split = command.Split(DelimiterChars);
+
+                    switch (split[0])
+                    {
+                        case "take":
+                            if (split.Length <= 1)
+                            {
+                                Console.WriteLine("What do you want to take?");
+                            }
+                            else  Game.Player.TakeFromObject(split[1], GameObject);
+
+                            break;
+                        case "put":
+                            if (split.Length <= 1)
+                            {
+                                Console.WriteLine("What do you want to drop?");
+                            }
+                            else Game.Player.PutToObject(split[1], GameObject);
+                            break;
+                        case "look":
+                            Info();
+                            break;
+                        case "back":
+                            Game.Manager.ChangeState("gamePlay");
+                            parsed = true;
+                            break;
+                        case "player":
+                            Game.Player.Info();
+                            break;
+                        case "help":
+                            if (split.Length == 1) Help();
+                            else Console.WriteLine(Help(split[1]));
+                            break;
+                        default:
+                            Console.WriteLine("I dont know what you mean. Type help for view commands.");
+                            break;
+                    }
                 }
             }
         }
 
         /// <summary>
-        /// Displays info 
+        /// Displays info about Object on which is player looking at.
         /// </summary>
         private void Info()
         {
@@ -135,7 +129,7 @@ namespace PotSemestralkaJakubBlunar
 
             if (command == null)
             {
-                foreach (string item in commands)
+                foreach (string item in Commands)
                 {
                     Console.WriteLine(Help(item));
                 }

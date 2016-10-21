@@ -1,22 +1,27 @@
 ﻿using Core;
-using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Xml;
 using System.Xml.Serialization;
-using System.Xml.Schema;
 
 namespace PotSemestralkaJakubBlunar
-{
+{   
+    
     /// <summary>
     /// Class loader manages game objects and how to game look. It can load and save game.
     /// </summary>
+    [XmlRoot("Loader")]
     public class Loader
     {
+        public List<Room> Rooms { get; set; }
+        public Player Player { get; set; }
 
+        public string LastRoom { get; set; }
 
-        public Loader()
+        public Loader() { Rooms = new List<Room>(); }
+
+        public Loader(Player p = null)
         {
+            Rooms = new List<Room>();
+            Player = p;
         }
 
         /// <summary>
@@ -24,7 +29,7 @@ namespace PotSemestralkaJakubBlunar
         /// </summary>
         /// <param name="g">this game</param>
         /// <returns>First room of the game where player is located.</returns>
-        public Room LoadWorld(Game g)
+        public Room LoadWorld()
         {
             Room r = new Room("top_tower_room", "Room on the top of the castle tower.");
             r.VisibleObjects.Add(new Book("magic_book"));
@@ -75,8 +80,8 @@ namespace PotSemestralkaJakubBlunar
             r.HiddenObjects.Add(d1);
             r.HiddenObjects.Add(ch2);
 
-            r.VisibleObjects.Add(new GameObject("small_bed", "It is just small bed. Are you sleepy?", "You fell asleep."));
-            r4.VisibleObjects.Add(new GameObject("bed", "Long bed for two people. Are you sleepy?", "You fell asleep."));
+            r.VisibleObjects.Add(new CommonObject("small_bed", "It is just small bed. Are you sleepy?", "You fell asleep."));
+            r4.VisibleObjects.Add(new CommonObject("bed", "Long bed for two people. Are you sleepy?", "You fell asleep."));
 
             r2.VisibleObjects.Add(d1);
 
@@ -87,23 +92,14 @@ namespace PotSemestralkaJakubBlunar
             Window w3 = new Window("big_window", "When you look down, you see that you are not that high from the grass. But you can't jump from here.");
             r4.VisibleObjects.Add(w3);
 
-            g.LastRoom = r3;
+            Rooms.Add(r);
+            Rooms.Add(r2);
+            Rooms.Add(r3);
+            Rooms.Add(r4);
+            LastRoom = r3.Name;
+
             return r;
         }
-
-
-        public static void Save(string filename,Loader loader)
-        {
-            XmlSerializer xsSubmit = new XmlSerializer(typeof(Loader));
-            StringWriter sww = new StringWriter();
-            using (XmlWriter writer = XmlWriter.Create(sww))
-            {
-                xsSubmit.Serialize(writer, loader);
-                var xml = sww.ToString(); // Your XML
-            }
-
-        }
-
       
     }
 

@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Xml.Serialization;
 
 namespace Core
 {
+    [XmlRoot("Room")]
     public class Room
     {
         
@@ -14,32 +12,27 @@ namespace Core
         
         public string Detail { get; set; }
 
-       
-        public List<IGameObject> VisibleObjects{ get; set; }
-        public List<IGameObject> HiddenObjects { get; set; }
+        public List<GameObjectBase> VisibleObjects{ get; set; }
+        public List<GameObjectBase> HiddenObjects { get; set; }
+
+        public Room() { }
 
         public Room(string name, string detail)
         {
-            VisibleObjects = new List<IGameObject>();
-            HiddenObjects = new List<IGameObject>();
+            VisibleObjects = new List<GameObjectBase>();
+            HiddenObjects = new List<GameObjectBase>();
             Name = name;
             Detail = detail;
         }
 
-        public Room()
-        {
-
-        }
-
-
-        public void onKeyUse(Key key)
+        public void OnKeyUse(Key key)
         {
             foreach (var o in VisibleObjects)
             {
                 if (o.Type == GameObjectType.Door)
                 {
                     Doors d = (Doors)o;
-                    if ( d.Key.Name == key.Name)
+                    if (d.Key!= null && d.Key.Name == key.Name)
                     {
                         if (!d.IsUnlocked)
                         {
@@ -47,24 +40,19 @@ namespace Core
                             Console.WriteLine("You have unlocked door: " + d.Name);
                             break;
                         }
-                        else
-                        {
-                            if (d.AreClosed)
-                            { 
-                                d.IsUnlocked = false;
-                                Console.WriteLine("You have locked door: " + d.Name);
-                                break;
-                            }
-                            else
-                            {
-                                Console.WriteLine("Can't lock opened door!");
-                            }
+
+                        if (d.AreClosed)
+                        { 
+                            d.IsUnlocked = false;
+                            Console.WriteLine("You have locked door: " + d.Name);
+                            break;
                         }
+                        Console.WriteLine("Can't lock opened door!");
                     }
                 }else if(o.Type == GameObjectType.Chest)
                 {
                     Chest ch = (Chest)o;
-                    if (ch.Key.Name == key.Name)
+                    if (ch.Key!= null && ch.Key.Name == key.Name)
                     {
                         if (!ch.IsUnlocked)
                         {
@@ -96,7 +84,7 @@ namespace Core
         {
             if (b.ShowsSomething)
             {
-                IGameObject gameObject = HiddenObjects.Find(x => x.Name == b.Object.Name);
+                GameObjectBase gameObject = HiddenObjects.Find(x => x.Name == b.Object.Name);
                 if (gameObject != null)
                 {
                     VisibleObjects.Add(gameObject);
@@ -111,7 +99,6 @@ namespace Core
                     HiddenObjects.Add(gameObject);
                     VisibleObjects.Remove(gameObject);
                     Console.WriteLine("Book: " + b.Name + " hide object " + gameObject.Name);
-                    return;
                 }
             }
             
@@ -121,7 +108,7 @@ namespace Core
         {
             if (holder.ShowsSomething)
             {
-                IGameObject gameObject = HiddenObjects.Find(x => x.Name == holder.Object.Name);
+                GameObjectBase gameObject = HiddenObjects.Find(x => x.Name == holder.Object.Name);
                 if(gameObject != null)
                 {
                     VisibleObjects.Add(gameObject);
@@ -136,7 +123,6 @@ namespace Core
                     HiddenObjects.Add(gameObject);
                     VisibleObjects.Remove(gameObject);
                     Console.WriteLine("Torch holder: " + holder.Name + " hide " + gameObject.Name);
-                    return;
                 }
 
             }else

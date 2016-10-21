@@ -1,26 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Xml.Serialization;
 
 namespace Core
 {
-    public class Bookshelf : IGameObject
+    [XmlRoot("Bookshelf")]
+    public class Bookshelf : GameObjectBase
     {
 
-        public List<Book> Books { get; private set; }
+        public List<Book> Books { get; set; }
 
-        public GameObjectType Type
-        {
-            get
-            {
-                return GameObjectType.Bookshelf;
-            }
-        }
+        public override GameObjectType Type => GameObjectType.Bookshelf;
 
-        public string Name { get; set; }
 
+        public Bookshelf() { }
 
         public Bookshelf(string name)
         {
@@ -28,12 +21,12 @@ namespace Core
             Books = new List<Book>();
         }
 
-        public void Look(Player p)
+        public override void Look(Player p)
         {
             
         }
 
-        public void Use(Player p)
+        public override void Use(Player p)
         {
             Console.WriteLine("How can I use Bookshelf? Maybe look?");
         }

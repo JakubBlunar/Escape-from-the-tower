@@ -1,17 +1,15 @@
 ﻿using Core;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Xml.Serialization;
 
 namespace PotSemestralkaJakubBlunar
 {
+    /// <summary>
+    /// State when game is started. 
+    /// </summary>
     public class StateMainMenu:GameState
     {
-        private List<string> Commands { get; set; }
+        private List<string> Commands { get; }
 
         /// <summary>
         /// Creates state main menu. Define commands available for this state.
@@ -20,12 +18,12 @@ namespace PotSemestralkaJakubBlunar
         /// <param name="game">instance of game</param>
         public StateMainMenu(String name,Game game): base(name,game)
         {
-            Commands = new List<string>();
-            Commands.Add("new_game");
-            Commands.Add("exit");
-            Commands.Add("help");
+            Commands = new List<string> {"new_game", "load", "exit", "help"};
         }
 
+        /// <summary>
+        /// Method for parsing inserted commands.
+        /// </summary>
         public override void Tick()
         {
             Console.Clear();
@@ -36,57 +34,71 @@ namespace PotSemestralkaJakubBlunar
                 Console.Write("Available commands: ");
                 foreach (var c in Commands)
                 {
-                    Console.Write(c.ToString() + " ");
+                    Console.Write(c + " ");
                 }
                 Console.WriteLine();
                 Console.Write("->  ");
                 string command = Console.ReadLine();
-                command = command.Trim();
-
-                string[] split = command.Split(delimiterChars);
-
-                switch (split[0])
+                if (command != null)
                 {
-                    case "new_game":
-                        if (split.Length == 1)
-                        {
-                            Console.WriteLine("You forgot to enter your name. help new_game for info.");
-                        }
-                        else {
-                            Player p = new Player(split[1]);
-                            Game.Player = p;
-                            //Game.Loader.Player = p;
-                            p.ActualRoom = Game.Loader.LoadWorld(Game);
-                            Loader.Save("asd", Game.Loader);
-                            
+                    command = command.Trim();
 
-                            Console.Clear();
-                            Console.WriteLine("You woke up in big castle tower. You don't know how did you get there. But you want to get out of there!");
-                            Console.WriteLine();
-                            Thread.Sleep(4000);
-                            Console.WriteLine("So let the game begin!. Find the way out.");
-                            Console.WriteLine();
-                            Console.WriteLine("Press any key to continue...");
-                            Console.ReadKey();
+                    string[] split = command.Split(DelimiterChars);
+
+                    switch (split[0])
+                    {
+                        case "new_game":
+                            if (split.Length == 1)
+                            {
+                                Console.WriteLine("You forgot to enter your name. help new_game for info.");
+                            }
+                            else {
+                                Player p = new Player(split[1]);
+                                Game.Player = p;
+                                Game.Loader.Player = p;
+                                p.SetActualRoom(Game.Loader.LoadWorld());
+
+                                Console.Clear();
+                                Console.WriteLine("You woke up in big castle tower. You don't know how did you get there. But you want to get out of there!");
+                                Console.WriteLine();
+                                Console.WriteLine("So let the game begin!. Find the way out.");
+                                Console.WriteLine();
+                                Console.WriteLine("Press any key to continue...");
+                                Console.ReadKey();
                                  
-                            Game.Manager.ChangeState("gamePlay");
+                                Game.Manager.ChangeState("gamePlay");
+                                parsed = true;
+                            }
+                            break;
+                        case "load":
+                            if (split.Length == 1)
+                            {
+                                Console.WriteLine("From what file you want to load?");
+                            }
+                            else
+                            {
+                                if (Game.Load(split[1]))
+                                {
+                                    Game.Manager.ChangeState("gamePlay");
+                                    parsed = true;
+                                }
+                            }
+                            break;
+                        case "exit":
+                            Console.WriteLine("You exited game.");
+                            Game.IsRunning = false;
                             parsed = true;
-                        }
-                        break;
-                    case "exit":
-                        Console.WriteLine("You exited game.");
-                        Game.IsRunning = false;
-                        parsed = true;
-                        break;
-                    case "help":
-                        if (split.Length == 1) {
-                            Help();
-                        }
-                        else Console.WriteLine(Help(split[1]));
-                        break;
-                    default:
-                        Console.WriteLine("I dont know what you mean. Type help for view commands.");
-                        break;
+                            break;
+                        case "help":
+                            if (split.Length == 1) {
+                                Help();
+                            }
+                            else Console.WriteLine(Help(split[1]));
+                            break;
+                        default:
+                            Console.WriteLine("I dont know what you mean. Type help for view commands.");
+                            break;
+                    }
                 }
                 Console.WriteLine();
             }
@@ -112,6 +124,8 @@ namespace PotSemestralkaJakubBlunar
                 {
                     case "new_game":
                         return "new_game {playerName} - starts new game with player named {playername}";
+                    case "load":
+                        return "load {filename} - load game from file named {filename}.xml";
                     case "exit":
                         return "exit - exit game";
                     default :

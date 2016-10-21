@@ -3,18 +3,17 @@ using System.Xml.Serialization;
 
 namespace Core
 {
-    [XmlRoot("GameItem")]
-    public class GameItem : GameItemBase
+    [XmlRoot("CommonObject")]
+    public class CommonObject : GameObjectBase
     {
         public string TextLook { get; set; }
-       
         public string TextUse { get; set; }
 
-        public override GameObjectType Type => GameObjectType.UnknownItem;
+        public override GameObjectType Type => GameObjectType.UnknownObject;
 
-        public GameItem() { }
+        public CommonObject() { }
 
-        public GameItem(string name,string textLook, string textUse)
+        public CommonObject(string name, string textLook, string textUse)
         {
             Name = name;
             TextLook = textLook;
@@ -26,16 +25,10 @@ namespace Core
             Console.WriteLine(TextLook);
         }
 
-        public override void Take()
-        {
-            
-        }
-
         public override void Use(Player p)
         {
             Console.WriteLine(TextUse);
         }
 
-     
     }
 }

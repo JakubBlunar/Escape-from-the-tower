@@ -7,22 +7,21 @@
     /// </summary>
     public abstract class GameState
     {
-
-        public Game Game { get; private set; }
+        protected Game Game { get; private set; }
 
         /// <summary>
         /// Name of specified state
         /// </summary>
         public string Name { get; private set; }
 
-        protected char[] delimiterChars = { ' ', ',', '.', ':', '\t' };
+        protected readonly char[] DelimiterChars = { ' ', ',', '.', ':', '\t' };
 
         /// <summary>
         /// Creates new base class for game state
         /// </summary>
         /// <param name="name">Name of gamestate</param>
         /// <param name="game">Instance of game</param>
-        public GameState(string name, Game game)
+        protected GameState(string name, Game game)
         {
             Name = name;
             Game = game;
