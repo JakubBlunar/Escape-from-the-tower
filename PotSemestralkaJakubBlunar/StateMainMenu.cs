@@ -16,7 +16,7 @@ namespace PotSemestralkaJakubBlunar
         /// </summary>
         /// <param name="name">Name of the state.</param>
         /// <param name="game">instance of game</param>
-        public StateMainMenu(String name,Game game): base(name,game)
+        public StateMainMenu(string name,Game game): base(name,game)
         {
             Commands = new List<string> {"new_game", "load", "exit", "help"};
         }
@@ -67,6 +67,7 @@ namespace PotSemestralkaJakubBlunar
                                 Console.ReadKey();
                                  
                                 Game.Manager.ChangeState("gamePlay");
+                                Game.Timer.Start();
                                 parsed = true;
                             }
                             break;

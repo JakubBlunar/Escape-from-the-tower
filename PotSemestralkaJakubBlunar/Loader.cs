@@ -1,5 +1,7 @@
 ﻿using Core;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Timers;
 using System.Xml.Serialization;
 
 namespace PotSemestralkaJakubBlunar
@@ -11,12 +13,13 @@ namespace PotSemestralkaJakubBlunar
     [XmlRoot("Loader")]
     public class Loader
     {
+        
         public List<Room> Rooms { get; set; }
         public Player Player { get; set; }
 
         public string LastRoom { get; set; }
 
-        public Loader() { Rooms = new List<Room>(); }
+        public Loader() { Rooms = new List<Room>();}
 
         public Loader(Player p = null)
         {

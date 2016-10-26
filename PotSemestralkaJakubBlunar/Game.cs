@@ -11,6 +11,8 @@ namespace PotSemestralkaJakubBlunar
     /// </summary>
     public class Game
     {
+        public MyStopwatch Timer { get; set; }
+
         public Loader Loader { get; private set; }
         public StateManager Manager { get; }
         public bool IsRunning { private get; set; }  
@@ -28,6 +30,7 @@ namespace PotSemestralkaJakubBlunar
             Manager.AddState(new StateGamePlay("gamePlay",this));
             Manager.AddState(new StateLookAtObject("lookAtObject", this));
             Console.Title = "Escape from the Tower!";
+            Timer = new MyStopwatch(new TimeSpan());
         }
         
         /// <summary>
@@ -46,7 +49,16 @@ namespace PotSemestralkaJakubBlunar
                     {
                         Console.WriteLine("When you got outside big dragon attacked you. With your golden_sword you beat that monster.");
                         Console.WriteLine("You win!");
-                    }else
+                        Timer.Stop();
+                        using (var db = new ScoreContext())
+                        {
+                            db.Scores.Add(new Score(Player.Name, Timer.Elapsed, DateTime.Now));
+                            db.SaveChanges();
+                        }
+
+
+                    }
+                    else
                     {
                         Console.WriteLine("When you got outside big dragon attacked you. You didn't have something to use for defense. Monster have eaten you.");
                         Console.WriteLine("You lose!");
@@ -73,6 +85,16 @@ namespace PotSemestralkaJakubBlunar
                 try
                 {
                     serializer.Serialize(file, Loader);
+
+                    using (var f = new StreamWriter("./" + paFile))
+                    {
+                        f.WriteLine(Timer.Elapsed.Hours);
+                        f.WriteLine(Timer.Elapsed.Minutes);
+                        f.WriteLine(Timer.Elapsed.Seconds);
+
+                    }
+
+
                     succes = true;
                 }catch
                 {
@@ -88,6 +110,9 @@ namespace PotSemestralkaJakubBlunar
             {
                 Console.WriteLine("Error with saving game.");
             }
+
+            
+
         }
 
         /// <summary>
@@ -110,6 +135,24 @@ namespace PotSemestralkaJakubBlunar
                         Loader = l;
                         Player = Loader.Player;
                         Player.SetActualRoom(Loader.Rooms.Find(x => x.Name == Player.NameOfActualRoom));
+                        using (var f = new StreamReader("./" + paFile))
+                        {
+                            try
+                            {
+                                int h = int.Parse(f.ReadLine());
+                                int m = int.Parse(f.ReadLine());
+                                int s = int.Parse(f.ReadLine());
+                                TimeSpan tm = new TimeSpan(h, m, s);
+                                Timer = new MyStopwatch(tm);
+                                Timer.Restart();
+                            }
+                            catch
+                            {
+                                return false;
+                            }
+
+                        }
+
                         return true;
                     }
                     catch

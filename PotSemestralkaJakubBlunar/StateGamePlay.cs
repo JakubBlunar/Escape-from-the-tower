@@ -153,6 +153,8 @@ namespace PotSemestralkaJakubBlunar
         {
             Console.Clear();
             Room actual = Game.Player.ActualRoom;
+
+            Console.WriteLine("Time elapsed: {0:hh\\:mm\\:ss}", Game.Timer.Elapsed);
             Console.WriteLine("You are now in: " + actual.Name);
             Console.WriteLine("   " + actual.Detail);
             Console.WriteLine("Objects in room :");
