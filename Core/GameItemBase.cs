@@ -2,6 +2,9 @@
 
 namespace Core
 {
+    /// <summary>
+    /// Base class for game items, needed for xml serialization.
+    /// </summary>
     [XmlType("GameItemBase")]
     [XmlInclude(typeof(Book))]
     [XmlInclude(typeof(Key))]
@@ -9,8 +12,6 @@ namespace Core
     [XmlInclude(typeof(Gold))]
     public abstract class GameItemBase : GameObjectBase
     {
-       
         public abstract void Take();
-        
     }
 }

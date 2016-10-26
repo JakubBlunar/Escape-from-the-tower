@@ -1,5 +1,9 @@
 ﻿namespace Core
 {
+    /// <summary>
+    /// Interface of game objects, contain all 
+    /// method and propertes that has to be implemented.
+    /// </summary>
     public interface IGameObject
     {
         GameObjectType Type { get; }

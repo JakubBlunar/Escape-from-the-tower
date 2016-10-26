@@ -50,12 +50,18 @@ namespace PotSemestralkaJakubBlunar
                         Console.WriteLine("When you got outside big dragon attacked you. With your golden_sword you beat that monster.");
                         Console.WriteLine("You win!");
                         Timer.Stop();
-                        using (var db = new ScoreContext())
+                        try
                         {
-                            db.Scores.Add(new Score(Player.Name, Timer.Elapsed, DateTime.Now));
-                            db.SaveChanges();
+                            using (var db = new ScoreContext())
+                            {
+                                db.Scores.Add(new Score(Player.Name, Timer.Elapsed, DateTime.Now, Player.MoneyCollected));
+                                db.SaveChanges();
+                            }
                         }
-
+                        catch
+                        {
+                            //ignore
+                        }
 
                     }
                     else

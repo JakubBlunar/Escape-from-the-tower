@@ -1,5 +1,8 @@
 ﻿namespace Core
 {
+    /// <summary>
+    /// Enum that specify game object type
+    /// </summary>
     public enum GameObjectType
     {
         Key,

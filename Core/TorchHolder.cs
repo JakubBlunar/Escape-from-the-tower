@@ -3,6 +3,9 @@ using System.Xml.Serialization;
 
 namespace Core
 {
+    /// <summary>
+    /// Game object that can show or hide some another object in room
+    /// </summary>
     [XmlRoot("TorchHolder")]
     public class TorchHolder : GameObjectBase
     {
@@ -24,6 +27,10 @@ namespace Core
             Name = name;
         }
 
+        /// <summary>
+        /// Method invoked when player is looking at this object.
+        /// </summary>
+        /// <param name="p">actual player</param>
         public override void Look(Player p)
         {
             if (HasTorch)
@@ -35,6 +42,10 @@ namespace Core
             }
         }
 
+        /// <summary>
+        /// Method invoked when player is using this object.
+        /// </summary>
+        /// <param name="p">actual player</param>
         public override void Use(Player p)
         {
             ObjectUse?.Invoke(this);

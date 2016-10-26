@@ -1,35 +1,34 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Data.Entity.Core.Common.CommandTrees;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Globalization;
 
 namespace PotSemestralkaJakubBlunar
 {
+    /// <summary>
+    /// Poco object from db, for saving player score
+    /// </summary>
     public class Score
     {
         [Key]
         public int ScoreId { get; set; }
-
-
         public int H { get; set; }
         public int M { get; set; }
         public int S { get; set; }
         public string NameOfPlayer { get; set; }
         public string Date { get; set; }
         public string NameOfPc { get; set; }
+        public int MoneyCollected { get; set; }
 
-        
+        public Score() { }
 
-        public Score(string name, TimeSpan elapsed, DateTime date)
+        public Score(string name, TimeSpan elapsed, DateTime date, int money)
         {
             H = elapsed.Hours;
             M = elapsed.Minutes;
             S = elapsed.Seconds;
             NameOfPlayer = name;
-            Date = date.ToString();
+            Date = date.ToString(CultureInfo.CurrentCulture);
+            MoneyCollected = money;
             NameOfPc = Environment.MachineName;
         }
     }

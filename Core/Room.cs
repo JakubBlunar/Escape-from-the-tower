@@ -4,6 +4,9 @@ using System.Xml.Serialization;
 
 namespace Core
 {
+    /// <summary>
+    /// Class that represents game room, that contains all objects and items
+    /// </summary>
     [XmlRoot("Room")]
     public class Room
     {
@@ -25,6 +28,10 @@ namespace Core
             Detail = detail;
         }
 
+        /// <summary>
+        /// Handler on event of using key.
+        /// </summary>
+        /// <param name="key">key that was used</param>
         public void OnKeyUse(Key key)
         {
             foreach (var o in VisibleObjects)
@@ -80,6 +87,10 @@ namespace Core
             }
         }
 
+        /// <summary>
+        /// Handler for event of taking book from bookshelf
+        /// </summary>
+        /// <param name="b">book</param>
         public void OnBookTake(Book b)
         {
             if (b.ShowsSomething)
@@ -104,6 +115,10 @@ namespace Core
             
         }
 
+        /// <summary>
+        /// Handler for event of using torch holder
+        /// </summary>
+        /// <param name="holder"></param>
         public void OnTorchHolderUse(TorchHolder holder)
         {
             if (holder.ShowsSomething)

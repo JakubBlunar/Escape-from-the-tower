@@ -1,6 +1,7 @@
 ﻿using Core;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace PotSemestralkaJakubBlunar
 {
@@ -18,7 +19,7 @@ namespace PotSemestralkaJakubBlunar
         /// <param name="game">instance of game</param>
         public StateMainMenu(string name,Game game): base(name,game)
         {
-            Commands = new List<string> {"new_game", "load", "exit", "help"};
+            Commands = new List<string> {"new_game", "load", "exit", "help","highscore"};
         }
 
         /// <summary>
@@ -89,6 +90,28 @@ namespace PotSemestralkaJakubBlunar
                             Console.WriteLine("You exited game.");
                             Game.IsRunning = false;
                             parsed = true;
+                            break;
+                        case "highscore":
+                            try
+                            {
+                                using (var db = new ScoreContext())
+                                {
+                                    int count = 1;
+                                    var data = (from p in db.Scores orderby p.H, p.M, p.S select p).Take(10).ToList();
+                                    foreach (var score in data)
+                                    {
+                                        Console.WriteLine(
+                                            "{0}. Name: {1}   Time: {2}H {3}m {4}s   Gold: {5}   Pc: {6}", count,
+                                            score.NameOfPlayer, score.H, score.M, score.S, score.MoneyCollected,
+                                            score.NameOfPc);
+                                        count++;
+                                    }
+                                }
+                            }
+                            catch 
+                            {
+                                Console.WriteLine("Nothing to display");
+                            }
                             break;
                         case "help":
                             if (split.Length == 1) {

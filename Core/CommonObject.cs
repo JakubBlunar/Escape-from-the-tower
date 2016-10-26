@@ -3,6 +3,9 @@ using System.Xml.Serialization;
 
 namespace Core
 {
+    /// <summary>
+    /// Common game object that has only writing functionality.
+    /// </summary>
     [XmlRoot("CommonObject")]
     public class CommonObject : GameObjectBase
     {
@@ -20,11 +23,19 @@ namespace Core
             TextUse = textUse;
         }
 
+        /// <summary>
+        /// Method invoked when player is looking at this object.
+        /// </summary>
+        /// <param name="p">actual player</param>
         public override void Look(Player p)
         {
             Console.WriteLine(TextLook);
         }
 
+        /// <summary>
+        /// Method invoked when player is using this object.
+        /// </summary>
+        /// <param name="p">actual player</param>
         public override void Use(Player p)
         {
             Console.WriteLine(TextUse);

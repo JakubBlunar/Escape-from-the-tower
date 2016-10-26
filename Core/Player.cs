@@ -319,7 +319,10 @@ namespace Core
             Console.WriteLine("Curently have " + MoneyCollected + " gold.");
         }
 
-
+        /// <summary>
+        /// Sets actual room of player
+        /// </summary>
+        /// <param name="room">new room to set</param>
         public void SetActualRoom(Room room)
         {
             ActualRoom = room;
