@@ -3,7 +3,7 @@
 namespace Core
 {
     /// <summary>
-    /// Base class for game items, needed for xml serialization.
+    ///     Base class for game items, needed for xml serialization.
     /// </summary>
     [XmlType("GameItemBase")]
     [XmlInclude(typeof(Book))]

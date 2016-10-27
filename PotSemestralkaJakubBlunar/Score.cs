@@ -5,12 +5,13 @@ using System.Globalization;
 namespace PotSemestralkaJakubBlunar
 {
     /// <summary>
-    /// Poco object from db, for saving player score
+    ///     Poco object from db, for saving player score
     /// </summary>
     public class Score
     {
         [Key]
         public int ScoreId { get; set; }
+
         public int H { get; set; }
         public int M { get; set; }
         public int S { get; set; }
@@ -19,7 +20,9 @@ namespace PotSemestralkaJakubBlunar
         public string NameOfPc { get; set; }
         public int MoneyCollected { get; set; }
 
-        public Score() { }
+        public Score()
+        {
+        }
 
         public Score(string name, TimeSpan elapsed, DateTime date, int money)
         {
@@ -32,6 +35,4 @@ namespace PotSemestralkaJakubBlunar
             NameOfPc = Environment.MachineName;
         }
     }
-    
-
 }

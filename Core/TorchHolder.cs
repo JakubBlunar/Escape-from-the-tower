@@ -4,7 +4,7 @@ using System.Xml.Serialization;
 namespace Core
 {
     /// <summary>
-    /// Game object that can show or hide some another object in room
+    ///     Game object that can show or hide some another object in room
     /// </summary>
     [XmlRoot("TorchHolder")]
     public class TorchHolder : GameObjectBase
@@ -16,11 +16,14 @@ namespace Core
         public bool HasTorch { get; set; }
 
         public delegate void OnTorchHolderUse(TorchHolder holder);
-        public event OnTorchHolderUse ObjectUse;
-        
-        public TorchHolder() { }
 
-        public TorchHolder(string name,bool hasTorch = true, GameObjectBase toShow = null)
+        public event OnTorchHolderUse ObjectUse;
+
+        public TorchHolder()
+        {
+        }
+
+        public TorchHolder(string name, bool hasTorch = true, GameObjectBase toShow = null)
         {
             HasTorch = hasTorch;
             Object = toShow;
@@ -28,22 +31,19 @@ namespace Core
         }
 
         /// <summary>
-        /// Method invoked when player is looking at this object.
+        ///     Method invoked when player is looking at this object.
         /// </summary>
         /// <param name="p">actual player</param>
         public override void Look(Player p)
         {
             if (HasTorch)
-            {
                 Console.WriteLine("You are looking at Torch holder. There is lightning torch. What to do with it?");
-            }else
-            {
+            else
                 Console.WriteLine("You are looking at Torch holder. There is torch missing. What to do with it?");
-            }
         }
 
         /// <summary>
-        /// Method invoked when player is using this object.
+        ///     Method invoked when player is using this object.
         /// </summary>
         /// <param name="p">actual player</param>
         public override void Use(Player p)

@@ -1,20 +1,16 @@
 ﻿using System.Data.Entity;
 
-
 namespace PotSemestralkaJakubBlunar
 {
     /// <summary>
-    /// Db context for scores
+    ///     Db context for scores
     /// </summary>
-    public class ScoreContext: DbContext
+    public class ScoreContext : DbContext
     {
-
         public DbSet<Score> Scores { get; set; }
 
-        public ScoreContext():base("highscore")
+        public ScoreContext() : base("highscore")
         {
-            
         }
-        
     }
 }

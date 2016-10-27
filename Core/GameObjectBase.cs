@@ -3,7 +3,7 @@
 namespace Core
 {
     /// <summary>
-    /// Base class for all GameObject needed for xml serialization
+    ///     Base class for all GameObject needed for xml serialization
     /// </summary>
     [XmlRoot("GameObjectBase")]
     [XmlInclude(typeof(Window))]

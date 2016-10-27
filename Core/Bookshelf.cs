@@ -5,18 +5,14 @@ using System.Xml.Serialization;
 namespace Core
 {
     /// <summary>
-    /// Game object, that can contain books.
+    ///     Game object, that can contain books.
     /// </summary>
     [XmlRoot("Bookshelf")]
     public class Bookshelf : GameObjectBase
     {
-
-        public List<Book> Books { get; set; }
-
-        public override GameObjectType Type => GameObjectType.Bookshelf;
-
-
-        public Bookshelf() { }
+        public Bookshelf()
+        {
+        }
 
         public Bookshelf(string name)
         {
@@ -24,8 +20,12 @@ namespace Core
             Books = new List<Book>();
         }
 
+        public List<Book> Books { get; set; }
+
+        public override GameObjectType Type => GameObjectType.Bookshelf;
+
         /// <summary>
-        /// Method invoked when player is looking at this object.
+        ///     Method invoked when player is looking at this object.
         /// </summary>
         /// <param name="p">actual player</param>
         public override void Look(Player p)
@@ -34,7 +34,7 @@ namespace Core
         }
 
         /// <summary>
-        /// Method invoked when player is using this object.
+        ///     Method invoked when player is using this object.
         /// </summary>
         /// <param name="p">actual player</param>
         public override void Use(Player p)

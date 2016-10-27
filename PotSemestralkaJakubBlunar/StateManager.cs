@@ -3,15 +3,12 @@
 namespace PotSemestralkaJakubBlunar
 {
     /// <summary>
-    /// Class that manages game state.
+    ///     Class that manages game state.
     /// </summary>
     public class StateManager
     {
-        private Dictionary<string, GameState> GameStates { get; set; }
-        public GameState Actual { get; set; }
-
         /// <summary>
-        /// Creates new manager with new actual state.
+        ///     Creates new manager with new actual state.
         /// </summary>
         /// <param name="first">First state of the game</param>
         public StateManager(GameState first)
@@ -21,8 +18,11 @@ namespace PotSemestralkaJakubBlunar
             GameStates.Add(first.Name, first);
         }
 
+        private Dictionary<string, GameState> GameStates { get; }
+        public GameState Actual { get; set; }
+
         /// <summary>
-        /// Starts loop of actal state.
+        ///     Starts loop of actal state.
         /// </summary>
         public void Tick()
         {
@@ -30,7 +30,7 @@ namespace PotSemestralkaJakubBlunar
         }
 
         /// <summary>
-        /// Change actual state to some new.
+        ///     Change actual state to some new.
         /// </summary>
         /// <param name="paNew">Name of new state.</param>
         public void ChangeState(string paNew)
@@ -40,7 +40,7 @@ namespace PotSemestralkaJakubBlunar
         }
 
         /// <summary>
-        /// Add new state.
+        ///     Add new state.
         /// </summary>
         /// <param name="state">New state to add.</param>
         public void AddState(GameState state)
@@ -50,15 +50,14 @@ namespace PotSemestralkaJakubBlunar
         }
 
         /// <summary>
-        /// Returns state with specified name.
+        ///     Returns state with specified name.
         /// </summary>
         /// <param name="v">Name of state.</param>
         /// <returns>Game state with specified name.</returns>
         public GameState GetGameState(string v)
         {
-            if(GameStates.ContainsKey(v)) return GameStates[v];
+            if (GameStates.ContainsKey(v)) return GameStates[v];
             return null;
-            
         }
     }
 }

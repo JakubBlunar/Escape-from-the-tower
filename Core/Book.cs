@@ -4,22 +4,16 @@ using System.Xml.Serialization;
 namespace Core
 {
     /// <summary>
-    /// Game item book, that can show or hide some gameobject in room 
+    ///     Game item book, that can show or hide some gameobject in room
     /// </summary>
     [XmlRoot("Book")]
     public class Book : GameItemBase
     {
-        public Doors Object { get; set; }
-
-        public bool ShowsSomething => Object != null;
-
-        public override GameObjectType Type => GameObjectType.Book;
-
         public delegate void OnBookTake(Book b);
-        public event OnBookTake BookTake;
 
-        public Book() { }
-
+        public Book()
+        {
+        }
 
         public Book(string name, Doors toShow = null)
         {
@@ -27,8 +21,15 @@ namespace Core
             Object = toShow;
         }
 
+        public Doors Object { get; set; }
+
+        public bool ShowsSomething => Object != null;
+
+        public override GameObjectType Type => GameObjectType.Book;
+        public event OnBookTake BookTake;
+
         /// <summary>
-        /// Method invoked when player is looking at this item.
+        ///     Method invoked when player is looking at this item.
         /// </summary>
         /// <param name="p">actual player</param>
         public override void Look(Player p)
@@ -37,7 +38,7 @@ namespace Core
         }
 
         /// <summary>
-        /// Method invoked on taking this game item
+        ///     Method invoked on taking this game item
         /// </summary>
         public override void Take()
         {
@@ -45,7 +46,7 @@ namespace Core
         }
 
         /// <summary>
-        /// Method invoked when player is using this item.
+        ///     Method invoked when player is using this item.
         /// </summary>
         /// <param name="p">actual player</param>
         public override void Use(Player p)

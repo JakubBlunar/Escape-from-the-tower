@@ -4,7 +4,7 @@ using System.Xml.Serialization;
 namespace Core
 {
     /// <summary>
-    /// Game object that represents window in game.
+    ///     Game object that represents window in game.
     /// </summary>
     [XmlRoot("Window")]
     public class Window : GameObjectBase
@@ -13,7 +13,9 @@ namespace Core
 
         public override GameObjectType Type => GameObjectType.Window;
 
-        public Window() { }
+        public Window()
+        {
+        }
 
         public Window(string name, string description)
         {
@@ -22,7 +24,7 @@ namespace Core
         }
 
         /// <summary>
-        /// Method invoked when player is looking at this object.
+        ///     Method invoked when player is looking at this object.
         /// </summary>
         /// <param name="p">actual player</param>
         public override void Look(Player p)
@@ -32,7 +34,7 @@ namespace Core
         }
 
         /// <summary>
-        /// Method invoked when player is using this object.
+        ///     Method invoked when player is using this object.
         /// </summary>
         /// <param name="p">actual player</param>
         public override void Use(Player p)

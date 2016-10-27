@@ -1,7 +1,7 @@
 ﻿namespace Core
 {
     /// <summary>
-    /// Enum that specify game object type
+    ///     Enum that specify game object type
     /// </summary>
     public enum GameObjectType
     {

@@ -5,20 +5,14 @@ using System.Xml.Serialization;
 namespace Core
 {
     /// <summary>
-    /// Class that represents game room, that contains all objects and items
+    ///     Class that represents game room, that contains all objects and items
     /// </summary>
     [XmlRoot("Room")]
     public class Room
     {
-        
-        public string Name { get; set; }
-        
-        public string Detail { get; set; }
-
-        public List<GameObjectBase> VisibleObjects{ get; set; }
-        public List<GameObjectBase> HiddenObjects { get; set; }
-
-        public Room() { }
+        public Room()
+        {
+        }
 
         public Room(string name, string detail)
         {
@@ -28,18 +22,24 @@ namespace Core
             Detail = detail;
         }
 
+        public string Name { get; set; }
+
+        public string Detail { get; set; }
+
+        public List<GameObjectBase> VisibleObjects { get; set; }
+        public List<GameObjectBase> HiddenObjects { get; set; }
+
         /// <summary>
-        /// Handler on event of using key.
+        ///     Handler on event of using key.
         /// </summary>
         /// <param name="key">key that was used</param>
         public void OnKeyUse(Key key)
         {
             foreach (var o in VisibleObjects)
-            {
                 if (o.Type == GameObjectType.Door)
                 {
-                    Doors d = (Doors)o;
-                    if (d.Key!= null && d.Key.Name == key.Name)
+                    var d = (Doors) o;
+                    if ((d.Key != null) && (d.Key.Name == key.Name))
                     {
                         if (!d.IsUnlocked)
                         {
@@ -49,18 +49,18 @@ namespace Core
                         }
 
                         if (d.AreClosed)
-                        { 
+                        {
                             d.IsUnlocked = false;
                             Console.WriteLine("You have locked door: " + d.Name);
                             break;
                         }
                         Console.WriteLine("Can't lock opened door!");
                     }
-                }else if(o.Type == GameObjectType.Chest)
+                }
+                else if (o.Type == GameObjectType.Chest)
                 {
-                    Chest ch = (Chest)o;
-                    if (ch.Key!= null && ch.Key.Name == key.Name)
-                    {
+                    var ch = (Chest) o;
+                    if ((ch.Key != null) && (ch.Key.Name == key.Name))
                         if (!ch.IsUnlocked)
                         {
                             ch.IsUnlocked = true;
@@ -75,27 +75,20 @@ namespace Core
                                 Console.WriteLine("You have locked chest: " + ch.Name);
                                 break;
                             }
-                            else
-                            {
-                                Console.WriteLine("Can't lock opened chest!");
-                            }
+                            Console.WriteLine("Can't lock opened chest!");
                         }
-                    }
                 }
-            
-            
-            }
         }
 
         /// <summary>
-        /// Handler for event of taking book from bookshelf
+        ///     Handler for event of taking book from bookshelf
         /// </summary>
         /// <param name="b">book</param>
         public void OnBookTake(Book b)
         {
             if (b.ShowsSomething)
             {
-                GameObjectBase gameObject = HiddenObjects.Find(x => x.Name == b.Object.Name);
+                var gameObject = HiddenObjects.Find(x => x.Name == b.Object.Name);
                 if (gameObject != null)
                 {
                     VisibleObjects.Add(gameObject);
@@ -112,19 +105,18 @@ namespace Core
                     Console.WriteLine("Book: " + b.Name + " hide object " + gameObject.Name);
                 }
             }
-            
         }
 
         /// <summary>
-        /// Handler for event of using torch holder
+        ///     Handler for event of using torch holder
         /// </summary>
         /// <param name="holder"></param>
         public void OnTorchHolderUse(TorchHolder holder)
         {
             if (holder.ShowsSomething)
             {
-                GameObjectBase gameObject = HiddenObjects.Find(x => x.Name == holder.Object.Name);
-                if(gameObject != null)
+                var gameObject = HiddenObjects.Find(x => x.Name == holder.Object.Name);
+                if (gameObject != null)
                 {
                     VisibleObjects.Add(gameObject);
                     HiddenObjects.Remove(gameObject);
@@ -133,19 +125,17 @@ namespace Core
                 }
 
                 gameObject = VisibleObjects.Find(x => x.Name == holder.Object.Name);
-                if(gameObject!= null)
+                if (gameObject != null)
                 {
                     HiddenObjects.Add(gameObject);
                     VisibleObjects.Remove(gameObject);
                     Console.WriteLine("Torch holder: " + holder.Name + " hide " + gameObject.Name);
                 }
-
-            }else
+            }
+            else
             {
                 Console.WriteLine("Using torch holder had no effect.");
             }
         }
-
-
     }
 }

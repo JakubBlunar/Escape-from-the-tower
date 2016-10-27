@@ -3,9 +3,9 @@
 namespace PotSemestralkaJakubBlunar
 {
     /// <summary>
-    /// Program is Class just for entry point for game.
+    ///     Program is Class just for entry point for game.
     /// </summary>
-    static class Program
+    internal static class Program
     {
         [STAThread]
         public static void Main()

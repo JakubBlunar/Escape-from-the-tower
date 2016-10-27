@@ -4,17 +4,14 @@ using System.Xml.Serialization;
 namespace Core
 {
     /// <summary>
-    /// Common game object that has only writing functionality.
+    ///     Common game object that has only writing functionality.
     /// </summary>
     [XmlRoot("CommonObject")]
     public class CommonObject : GameObjectBase
     {
-        public string TextLook { get; set; }
-        public string TextUse { get; set; }
-
-        public override GameObjectType Type => GameObjectType.UnknownObject;
-
-        public CommonObject() { }
+        public CommonObject()
+        {
+        }
 
         public CommonObject(string name, string textLook, string textUse)
         {
@@ -23,8 +20,13 @@ namespace Core
             TextUse = textUse;
         }
 
+        public string TextLook { get; set; }
+        public string TextUse { get; set; }
+
+        public override GameObjectType Type => GameObjectType.UnknownObject;
+
         /// <summary>
-        /// Method invoked when player is looking at this object.
+        ///     Method invoked when player is looking at this object.
         /// </summary>
         /// <param name="p">actual player</param>
         public override void Look(Player p)
@@ -33,13 +35,12 @@ namespace Core
         }
 
         /// <summary>
-        /// Method invoked when player is using this object.
+        ///     Method invoked when player is using this object.
         /// </summary>
         /// <param name="p">actual player</param>
         public override void Use(Player p)
         {
             Console.WriteLine(TextUse);
         }
-
     }
 }

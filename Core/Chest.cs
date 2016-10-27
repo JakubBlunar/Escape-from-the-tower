@@ -5,23 +5,14 @@ using System.Xml.Serialization;
 namespace Core
 {
     /// <summary>
-    /// Object in game chest, that can contain various game items.
+    ///     Object in game chest, that can contain various game items.
     /// </summary>
     [XmlRoot("Chest")]
     public class Chest : GameObjectBase
     {
-        
-        public List<GameItemBase> Items { get; set; }
-
-        public override GameObjectType Type => GameObjectType.Chest;
-
-        public Key Key { get; set; }
-
-        public bool IsUnlocked { get; set; }
-
-        public bool IsClosed { get; set; }
-
-        public Chest() { }
+        public Chest()
+        {
+        }
 
         public Chest(string name, Key k = null)
         {
@@ -33,8 +24,18 @@ namespace Core
             Items = new List<GameItemBase>();
         }
 
+        public List<GameItemBase> Items { get; set; }
+
+        public override GameObjectType Type => GameObjectType.Chest;
+
+        public Key Key { get; set; }
+
+        public bool IsUnlocked { get; set; }
+
+        public bool IsClosed { get; set; }
+
         /// <summary>
-        /// Method invoked when player is looking at this object.
+        ///     Method invoked when player is looking at this object.
         /// </summary>
         /// <param name="p">actual player</param>
         public override void Look(Player p)
@@ -43,13 +44,12 @@ namespace Core
         }
 
         /// <summary>
-        /// Method invoked when player is using this object.
+        ///     Method invoked when player is using this object.
         /// </summary>
         /// <param name="p">actual player</param>
         public override void Use(Player p)
         {
             if (IsUnlocked)
-            {
                 if (IsClosed)
                 {
                     IsClosed = false;
@@ -60,11 +60,8 @@ namespace Core
                     IsClosed = true;
                     Console.WriteLine("You close chest " + Name + ".");
                 }
-            }
             else
-            {
                 Console.WriteLine("Chest " + Name + " is locked. Find key to unlock it.");
-            }
         }
     }
 }

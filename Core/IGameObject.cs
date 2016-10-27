@@ -1,8 +1,8 @@
 ﻿namespace Core
 {
     /// <summary>
-    /// Interface of game objects, contain all 
-    /// method and propertes that has to be implemented.
+    ///     Interface of game objects, contain all
+    ///     method and propertes that has to be implemented.
     /// </summary>
     public interface IGameObject
     {
@@ -11,6 +11,5 @@
 
         void Use(Player p);
         void Look(Player p);
-      
     }
 }
