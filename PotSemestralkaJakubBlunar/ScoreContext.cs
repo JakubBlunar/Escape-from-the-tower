@@ -7,10 +7,10 @@ namespace PotSemestralkaJakubBlunar
     /// </summary>
     public class ScoreContext : DbContext
     {
-        public DbSet<Score> Scores { get; set; }
-
         public ScoreContext() : base("highscore")
         {
         }
+
+        public DbSet<Score> Scores { get; set; }
     }
 }

@@ -11,13 +11,6 @@ namespace PotSemestralkaJakubBlunar
     /// </summary>
     public class Game
     {
-        public MyStopwatch Timer { get; set; }
-
-        public Loader Loader { get; private set; }
-        public StateManager Manager { get; }
-        public bool IsRunning { private get; set; }
-        public Player Player { get; set; }
-
         /// <summary>
         ///     Constructor creates new game with game states needed for run.
         /// </summary>
@@ -32,6 +25,13 @@ namespace PotSemestralkaJakubBlunar
             Console.Title = "Escape from the Tower! by Jakub Blunár";
             Timer = new MyStopwatch(new TimeSpan());
         }
+
+        public MyStopwatch Timer { get; set; }
+
+        public Loader Loader { get; private set; }
+        public StateManager Manager { get; }
+        public bool IsRunning { private get; set; }
+        public Player Player { get; set; }
 
         /// <summary>
         ///     Method Start starts new game, goes inside main loop and checking for end.
@@ -126,7 +126,6 @@ namespace PotSemestralkaJakubBlunar
             var fileName = "./" + paFile + ".xml";
 
             if (File.Exists(fileName))
-            {
                 using (var file = new FileStream(fileName, FileMode.Open))
                 {
                     var serializer = new XmlSerializer(typeof(Loader));
@@ -161,7 +160,6 @@ namespace PotSemestralkaJakubBlunar
                         return false;
                     }
                 }
-            }
             Console.WriteLine("File " + fileName + " don't exists.");
             return false;
         }

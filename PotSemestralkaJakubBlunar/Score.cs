@@ -9,17 +9,6 @@ namespace PotSemestralkaJakubBlunar
     /// </summary>
     public class Score
     {
-        [Key]
-        public int ScoreId { get; set; }
-
-        public int H { get; set; }
-        public int M { get; set; }
-        public int S { get; set; }
-        public string NameOfPlayer { get; set; }
-        public string Date { get; set; }
-        public string NameOfPc { get; set; }
-        public int MoneyCollected { get; set; }
-
         public Score()
         {
         }
@@ -34,5 +23,16 @@ namespace PotSemestralkaJakubBlunar
             MoneyCollected = money;
             NameOfPc = Environment.MachineName;
         }
+
+        [Key]
+        public int ScoreId { get; set; }
+
+        public int H { get; set; }
+        public int M { get; set; }
+        public int S { get; set; }
+        public string NameOfPlayer { get; set; }
+        public string Date { get; set; }
+        public string NameOfPc { get; set; }
+        public int MoneyCollected { get; set; }
     }
 }

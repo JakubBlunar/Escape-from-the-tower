@@ -10,8 +10,6 @@ namespace PotSemestralkaJakubBlunar
     /// </summary>
     public class StateMainMenu : GameState
     {
-        private List<string> Commands { get; }
-
         /// <summary>
         ///     Creates state main menu. Define commands available for this state.
         /// </summary>
@@ -21,6 +19,8 @@ namespace PotSemestralkaJakubBlunar
         {
             Commands = new List<string> {"new_game", "load", "exit", "help", "highscore"};
         }
+
+        private List<string> Commands { get; }
 
         /// <summary>
         ///     Method for parsing inserted commands.

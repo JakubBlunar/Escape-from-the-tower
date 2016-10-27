@@ -9,10 +9,6 @@ namespace PotSemestralkaJakubBlunar
     /// </summary>
     public class StateLookAtObject : GameState
     {
-        private List<string> Commands { get; }
-
-        public IGameObject GameObject { private get; set; }
-
         /// <summary>
         ///     Creates state look at object. Define commands available for this state.
         /// </summary>
@@ -22,6 +18,10 @@ namespace PotSemestralkaJakubBlunar
         {
             Commands = new List<string> {"take", "put", "look", "player", "back", "help"};
         }
+
+        private List<string> Commands { get; }
+
+        public IGameObject GameObject { private get; set; }
 
         /// <summary>
         ///     Main loop of this state, wait for user input, parse it and execute specified command.

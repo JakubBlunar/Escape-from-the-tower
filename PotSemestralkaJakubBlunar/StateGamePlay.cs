@@ -9,8 +9,6 @@ namespace PotSemestralkaJakubBlunar
     /// </summary>
     public class StateGamePlay : GameState
     {
-        private List<string> Commands { get; }
-
         /// <summary>
         ///     Creates state game play. Define commands available for this state.
         /// </summary>
@@ -20,6 +18,8 @@ namespace PotSemestralkaJakubBlunar
         {
             Commands = new List<string> {"go", "look", "take", "put", "use", "player", "save", "load"};
         }
+
+        private List<string> Commands { get; }
 
         /// <summary>
         ///     Main loop of this state, wait for user input, parse it and execute specified command.

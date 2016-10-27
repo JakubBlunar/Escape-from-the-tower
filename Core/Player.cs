@@ -11,6 +11,16 @@ namespace Core
     [XmlRoot("Player")]
     public class Player
     {
+        public Player()
+        {
+        }
+
+        public Player(string name)
+        {
+            Inventory = new List<GameItemBase>();
+            Name = name;
+        }
+
         [XmlIgnore]
         public Room ActualRoom { get; set; }
 
@@ -21,16 +31,6 @@ namespace Core
         public List<GameItemBase> Inventory { get; set; }
 
         public string Name { get; set; }
-
-        public Player()
-        {
-        }
-
-        public Player(string name)
-        {
-            Inventory = new List<GameItemBase>();
-            Name = name;
-        }
 
         /// <summary>
         ///     Method for command go, where player change actual room

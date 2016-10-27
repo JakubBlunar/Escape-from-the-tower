@@ -1,18 +1,15 @@
+using System.Data.Entity.Migrations;
+
 namespace PotSemestralkaJakubBlunar.Migrations
 {
-    using System;
-    using System.Data.Entity;
-    using System.Data.Entity.Migrations;
-    using System.Linq;
-
-    internal sealed class Configuration : DbMigrationsConfiguration<PotSemestralkaJakubBlunar.ScoreContext>
+    internal sealed class Configuration : DbMigrationsConfiguration<ScoreContext>
     {
         public Configuration()
         {
             AutomaticMigrationsEnabled = true;
         }
 
-        protected override void Seed(PotSemestralkaJakubBlunar.ScoreContext context)
+        protected override void Seed(ScoreContext context)
         {
             //  This method will be called after migrating to the latest version.
 

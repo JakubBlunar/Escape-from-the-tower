@@ -10,11 +10,6 @@ namespace PotSemestralkaJakubBlunar
     [XmlRoot("Loader")]
     public class Loader
     {
-        public List<Room> Rooms { get; set; }
-        public Player Player { get; set; }
-
-        public string LastRoom { get; set; }
-
         public Loader()
         {
             Rooms = new List<Room>();
@@ -25,6 +20,11 @@ namespace PotSemestralkaJakubBlunar
             Rooms = new List<Room>();
             Player = p;
         }
+
+        public List<Room> Rooms { get; set; }
+        public Player Player { get; set; }
+
+        public string LastRoom { get; set; }
 
         /// <summary>
         ///     Loads world objects.

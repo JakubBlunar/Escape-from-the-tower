@@ -9,15 +9,7 @@ namespace Core
     [XmlRoot("TorchHolder")]
     public class TorchHolder : GameObjectBase
     {
-        public override GameObjectType Type => GameObjectType.TorchHolder;
-        public GameObjectBase Object { get; set; }
-        public bool ShowsSomething => Object != null;
-
-        public bool HasTorch { get; set; }
-
         public delegate void OnTorchHolderUse(TorchHolder holder);
-
-        public event OnTorchHolderUse ObjectUse;
 
         public TorchHolder()
         {
@@ -29,6 +21,14 @@ namespace Core
             Object = toShow;
             Name = name;
         }
+
+        public override GameObjectType Type => GameObjectType.TorchHolder;
+        public GameObjectBase Object { get; set; }
+        public bool ShowsSomething => Object != null;
+
+        public bool HasTorch { get; set; }
+
+        public event OnTorchHolderUse ObjectUse;
 
         /// <summary>
         ///     Method invoked when player is looking at this object.

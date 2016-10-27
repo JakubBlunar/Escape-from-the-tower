@@ -9,10 +9,6 @@ namespace Core
     [XmlRoot("Window")]
     public class Window : GameObjectBase
     {
-        public string Description { get; set; }
-
-        public override GameObjectType Type => GameObjectType.Window;
-
         public Window()
         {
         }
@@ -22,6 +18,10 @@ namespace Core
             Name = name;
             Description = description;
         }
+
+        public string Description { get; set; }
+
+        public override GameObjectType Type => GameObjectType.Window;
 
         /// <summary>
         ///     Method invoked when player is looking at this object.

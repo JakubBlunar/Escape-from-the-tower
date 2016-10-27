@@ -7,13 +7,6 @@
     /// </summary>
     public abstract class GameState
     {
-        protected Game Game { get; private set; }
-
-        /// <summary>
-        ///     Name of specified state
-        /// </summary>
-        public string Name { get; private set; }
-
         protected readonly char[] DelimiterChars = {' ', ',', '.', ':', '\t'};
 
         /// <summary>
@@ -26,6 +19,13 @@
             Name = name;
             Game = game;
         }
+
+        protected Game Game { get; private set; }
+
+        /// <summary>
+        ///     Name of specified state
+        /// </summary>
+        public string Name { get; private set; }
 
         /// <summary>
         ///     Base method for each state. There is main loop of state.
