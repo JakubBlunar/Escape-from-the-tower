@@ -29,7 +29,7 @@ namespace PotSemestralkaJakubBlunar
             Manager = new StateManager(mm);
             Manager.AddState(new StateGamePlay("gamePlay",this));
             Manager.AddState(new StateLookAtObject("lookAtObject", this));
-            Console.Title = "Escape from the Tower!";
+            Console.Title = "Escape from the Tower! by Jakub Blunár";
             Timer = new MyStopwatch(new TimeSpan());
         }
         
